@@ -28,7 +28,7 @@ android {
 
 dependencies {
     compile files('libs/acrcloud-universal-sdk-1.2.20.jar')
-    compile 'com.google.guava:guava:11.0.2'
+    implementation 'com.google.guava:guava:11.0.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
