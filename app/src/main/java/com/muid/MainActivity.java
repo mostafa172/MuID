@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
                 //Recognize Lyrics and show them
                 new LyricsAdapter().execute(title,artist);
 
-                tres = tres + "\n\n" + result;
+                tres = tres + "\n\n" + result + "\n\n";
             }else{
                 tres = result;
             }
@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
         @Override
         protected void onPostExecute(String result) {
             System.out.println("lyrics:" + lyrics);
-            mResult.setText(mResult.getText() +"\n" + lyrics);
+            mResult.setText(mResult.getText() + lyrics);
         }
 
         @Override
