@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 
     private final static String TAG = "MainActivity";
 
-    private musiXmatchLyricsConnector mLyricsPlugin = null;
-
     private TextView mVolume, mResult, tv_time;
 
     private boolean mProcessing = false;
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
     private long startTime = 0;
     private long stopTime = 0;
 
-    static String title, artist;
+    static String title, artist, album, lyrics;
 
     private final int PRINT_MSG = 1001;
 
@@ -65,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
         super.onCreate(savedInstanceState);
         setContentView(com.muid.R.layout.activity_main);
 
+        //For saving previous searches
         path = Environment.getExternalStorageDirectory().toString()
                 + "/muid";
         Log.e(TAG, path);
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
         mResult = (TextView) findViewById(com.muid.R.id.result);
         tv_time = (TextView) findViewById(com.muid.R.id.time);
 
+        //Start Listening
         findViewById(com.muid.R.id.start).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
             }
         });
 
+        //Cancel Listening
         findViewById(com.muid.R.id.cancel).setOnClickListener(
                 new View.OnClickListener() {
 
@@ -95,26 +96,6 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
                     }
                 });
 
-        findViewById(com.muid.R.id.request_radio_meta).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                requestRadioMetadata();
-            }
-        });
-
-        Switch sb = findViewById(com.muid.R.id.auto_switch);
-        sb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    openAutoRecognize();
-                } else {
-                    closeAutoRecognize();
-                }
-            }
-        });
-
         verifyPermissions();
 
         this.mConfig = new ACRCloudConfig();
@@ -123,9 +104,9 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
         this.mConfig.context = this;
 
         // Please create project in "http://console.acrcloud.cn/service/avr".
-        this.mConfig.host = "identify-eu-west-1.acrcloud.com";
-        this.mConfig.accessKey = "c0e47551931c9fec17afd1d6c6a953db";
-        this.mConfig.accessSecret = "cEu4A0Whk9ShZ8Cnxn9zxoKheupt0i2We5WaG968";
+        this.mConfig.host = this.getString(R.string.host);
+        this.mConfig.accessKey = this.getString(R.string.access_key);
+        this.mConfig.accessSecret = this.getString(R.string.access_secret);
 
         // auto recognize access key
         this.mConfig.hostAuto = "";
@@ -143,25 +124,6 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 
         this.initState = this.mClient.initWithConfig(this.mConfig);
 
-        final String artistName = "The Beatles";
-        final String trackName = "Let It Be";
-
-        mLyricsPlugin = new musiXmatchLyricsConnector(this);
-        mLyricsPlugin.setLoadingMessage("Your custom title", "Your custom message");
-
-//        findViewById(R.id.showLyrics).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                try {
-//////                    mLyricsPlugin.startLyricsActivity(artistName, trackName);
-//////                } catch (MissingPluginException e) {
-////                    mLyricsPlugin.downloadLyricsPlugin();
-////                } catch (RemoteException e) {
-////                    e.printStackTrace();
-////                }
-//
-//            }
-//        });
     }
 
     public void start() {
@@ -186,43 +148,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
         if (mProcessing && this.mClient != null) {
             this.mClient.cancel();
         }
-
         this.reset();
-    }
-
-    public void openAutoRecognize() {
-        String str = this.getString(com.muid.R.string.suss);
-        if (!mAutoRecognizing) {
-            mAutoRecognizing = true;
-            if (this.mClient == null || !this.mClient.runAutoRecognize()) {
-                mAutoRecognizing = true;
-                str = this.getString(com.muid.R.string.error);
-            }
-        }
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-    }
-
-    public void closeAutoRecognize() {
-        String str = this.getString(com.muid.R.string.suss);
-        if (mAutoRecognizing) {
-            mAutoRecognizing = false;
-            this.mClient.cancelAutoRecognize();
-            str = this.getString(com.muid.R.string.error);
-        }
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-    }
-
-    // callback IACRCloudRadioMetadataListener
-    public void requestRadioMetadata() {
-        String lat = "39.98";
-        String lng = "116.29";
-        List<String> freq = new ArrayList<>();
-        freq.add("88.7");
-        if (!this.mClient.requestRadioMetadataAsyn(lat, lng, freq,
-                ACRCloudConfig.RadioType.FM, this)) {
-            String str = this.getString(com.muid.R.string.error);
-            Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void reset() {
@@ -257,23 +183,44 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
                 //
                 if (metadata.has("music")) {
                     JSONArray musics = metadata.getJSONArray("music");
-                    for(int i=0; i<musics.length(); i++) {
+
+                    //For more than one recognition
+//                    for(int i=0; i<musics.length(); i++) {
 //                        JSONObject tt = (JSONObject) musics.get(i);
 //                        title = tt.getString("title");
 //                        JSONArray artistt = tt.getJSONArray("artists");
 //                        JSONObject art = (JSONObject) artistt.get(0);
 //                        artist = art.getString("name");
 //                        tres = tres + (i+1) + ".  Title: " + title + "    Artist: " + artist + "\n";
-                    }
+//                    }
+
+                    //Splitting music information
                     JSONObject tt = (JSONObject) musics.get(0);
+
+                    //Music Title
                     title = tt.getString("title");
-                    JSONArray artistt = tt.getJSONArray("artists");
-                    JSONObject art = (JSONObject) artistt.get(0);
+                    tres = "Title: " + title;
+
+                    //Artists names
+                    JSONArray artists = tt.getJSONArray("artists");
+                    JSONObject art = (JSONObject) artists.get(0);
                     artist = art.getString("name");
-                    tres = "Title: " + title + "    Artist: " + artist + "\n";
+                    tres = tres + "    Artist: " + artist;
+                    //If number of artists > 1
+                    for(int i=1; i<artists.length(); i++){
+                        art = (JSONObject) artists.get(i);
+                        artist = art.getString("name");
+                        tres = tres + artist + " , ";
+                    }
+
+                    //Album Name
+                    JSONObject tempAlbum = tt.getJSONObject("album");
+                    album = tempAlbum.getString("name");
+                    tres = tres + "    Album: " + album + "\n";
 
                 }
 
+                //Recognize Lyrics and show them
                 new LyricsAdapter().execute(title,artist);
 
                 tres = tres + "\n\n" + result;
@@ -330,18 +277,8 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
         mResult.setText(s);
     }
 
-    @Override
-    protected void onResume() {
-        mLyricsPlugin.doBindService();
-        super.onResume();
-    }
 
-    @Override
-    protected void onPause() {
-        mLyricsPlugin.doUnbindService();
-        super.onPause();
-    }
-
+    //Lyrics Class
     private class LyricsAdapter extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -375,10 +312,8 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
                     is = urlConnection.getInputStream();
                     tempString = new String(ByteStreams.toByteArray(is));
                     jsonObject = new JSONObject(tempString);
-                    String lyrics = jsonObject.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
+                    lyrics = jsonObject.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
                     urlConnection.disconnect();
-
-                    System.out.println("lyrics:" + lyrics);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -390,6 +325,8 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 
         @Override
         protected void onPostExecute(String result) {
+            System.out.println("lyrics:" + lyrics);
+            mResult.setText(mResult.getText() +"\n" + lyrics);
         }
 
         @Override
