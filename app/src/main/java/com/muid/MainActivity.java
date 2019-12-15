@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
                 }
 
                 //Recognize Lyrics and show them
-                new LyricsAdapter().execute(title,artist);
+                new LyricsAdapter().execute(artist,title);
 
                 tres = tres + "\n\n" + result + "\n\n";
             }else{
@@ -327,11 +327,15 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 
             try {
                 Lyrics lyricsRequest = null;
-                String request = params[1] + " " + params[0];
-                System.out.print(request);
-                lyricsRequest = client.getLyrics(request).get();
+                String request = params[0] + " " + params[1];
+//                System.out.println(request);
+//                System.out.println("client: "+client.getLyrics(request, "MusixMatch"));
+                lyricsRequest = client.getLyrics(request, "MusixMatch").get();
+//                System.out.println("LYRICS REQUEST: "+lyricsRequest);
                 if(lyricsRequest != null){
                     lyrics = lyricsRequest.getContent();
+//                    System.out.println("SOURCE: " + lyricsRequest.getSource());
+                    System.out.println(lyricsRequest.getContent());
                 }
                 else
                     lyrics = "Lyrics not found!";
