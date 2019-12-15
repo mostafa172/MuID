@@ -5,9 +5,14 @@ android {
 
     sourceSets.main.jniLibs.srcDirs = ["libs"]
 
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
+
     defaultConfig {
         applicationId "com.muid"
-        minSdkVersion 15
+        minSdkVersion 26
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -27,8 +32,9 @@ android {
 }
 
 dependencies {
-    compile files('libs/acrcloud-universal-sdk-1.2.20.jar')
-    implementation 'com.google.guava:guava:11.0.2'
+    implementation files('libs/acrcloud-universal-sdk-1.2.20.jar')
+    implementation 'com.google.guava:guava:24.1-jre'
+    implementation 'com.jagrosh:JLyrics:0.4'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
