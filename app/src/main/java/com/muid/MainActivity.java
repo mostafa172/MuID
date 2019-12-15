@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 
 
     static LyricsClient client = new LyricsClient(); //default is A-Z Lyrics, can be changed to Genius, MusixMatch or LyricsFreak
+    static String[] lyricsSources = {"Genius", "A-Z Lyrics", "MusixMatch", "MusicMatch", "LyricsFreak"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
                     for(int i=1; i<artists.length(); i++){
                         art = (JSONObject) artists.get(i);
                         artist = art.getString("name");
-                        tres = tres + artist + " , ";
+                        tres = tres + " , " + artist ;
                     }
 
                     //Album Name
@@ -326,19 +327,39 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 //            }
 
             try {
-                Lyrics lyricsRequest = null;
+//                Lyrics lyricsRequest = null;
+                Lyrics[] lyricsRequest = new Lyrics[5];
+                boolean noLyrics = true;
                 String request = params[0] + " " + params[1];
-//                System.out.println(request);
+                System.out.println("REQUEST: "+ request);
 //                System.out.println("client: "+client.getLyrics(request, "MusixMatch"));
-                lyricsRequest = client.getLyrics(request, "MusixMatch").get();
+//                lyricsRequest[0] = client.getLyrics(request, "Genius").get();
+//                lyricsRequest[1] = client.getLyrics(request, "A-Z Lyrics").get();
+//                lyricsRequest[2] = client.getLyrics(request, "MusixMatch").get();
+//                lyricsRequest[3] = client.getLyrics(request, "MusicMatch").get();
+//                lyricsRequest[4] = client.getLyrics(request, "LyricsFreak").get();
+
 //                System.out.println("LYRICS REQUEST: "+lyricsRequest);
-                if(lyricsRequest != null){
-                    lyrics = lyricsRequest.getContent();
-//                    System.out.println("SOURCE: " + lyricsRequest.getSource());
-                    System.out.println(lyricsRequest.getContent());
+                for (int i=0; i<lyricsRequest.length;i++){
+                    lyricsRequest[i] = client.getLyrics(request, lyricsSources[i]).get();
+                    if(lyricsRequest[i] != null){
+                        noLyrics = false;
+                        lyrics = "Powered by:   " + lyricsRequest[i].getSource() + "\n\n" + lyricsRequest[i].getContent();
+                        System.out.println("SOURCE: " + lyricsRequest[i].getSource());
+                        System.out.println(lyricsRequest[i].getContent());
+                        break;
+                    }
                 }
-                else
+                if(noLyrics){
                     lyrics = "Lyrics not found!";
+                }
+//                if(lyricsRequest != null){
+//                    lyrics = lyricsRequest.getContent();
+//                    System.out.println("SOURCE: " + lyricsRequest.getSource());
+//                    System.out.println(lyricsRequest.getContent());
+//                }
+//                else
+//                    lyrics = "Lyrics not found!";
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
