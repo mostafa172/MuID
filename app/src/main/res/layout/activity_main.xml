@@ -39,6 +39,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000000" />
 
+            <ImageView
+                android:id="@+id/coverImageView"
+                android:layout_width="250dip"
+                android:layout_height="250dip"
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/result"
                 android:layout_width="fill_parent"

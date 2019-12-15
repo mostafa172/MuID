@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,15 +32,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.deezer.sdk.model.Album;
+import com.deezer.sdk.model.Permissions;
+import com.deezer.sdk.model.Track;
+import com.deezer.sdk.network.connect.DeezerConnect;
+import com.deezer.sdk.network.connect.event.DialogListener;
+import com.deezer.sdk.network.request.DeezerRequest;
+import com.deezer.sdk.network.request.DeezerRequestFactory;
+import com.deezer.sdk.network.request.event.JsonRequestListener;
+import com.deezer.sdk.network.request.event.RequestListener;
 import com.jagrosh.jlyrics.Lyrics;
 import com.jagrosh.jlyrics.LyricsClient;
 import com.musixmatch.lyrics.musiXmatchLyricsConnector;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     private final static String TAG = "MainActivity";
 
     private TextView mVolume, mResult, tv_time;
+    static ImageView coverImageView;
 
     private boolean mProcessing = false;
     private boolean mAutoRecognizing = false;
@@ -50,10 +62,15 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 
     private String path = "";
 
+    static String applicationID;
+
     private long startTime = 0;
     private long stopTime = 0;
 
     static String title, artist, album, lyrics;
+    static long trackID;
+
+    static DeezerConnect deezerConnect;
 
     private final int PRINT_MSG = 1001;
 
@@ -82,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
         mVolume = (TextView) findViewById(com.muid.R.id.volume);
         mResult = (TextView) findViewById(com.muid.R.id.result);
         tv_time = (TextView) findViewById(com.muid.R.id.time);
+
+        coverImageView = (ImageView) findViewById(R.id.coverImageView);
+
+
+        applicationID = this.getString(R.string.application_id);
+        deezerPermissions();
 
         //Start Listening
         findViewById(com.muid.R.id.start).setOnClickListener(new View.OnClickListener() {
@@ -177,7 +200,6 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 	*/
 
         String result = results.getResult();
-
         String tres = "\n";
 
         try {
@@ -203,35 +225,49 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
                     //Splitting music information
                     JSONObject tt = (JSONObject) musics.get(0);
 
+                    //Deezer
+                    JSONObject external_metadata = tt.getJSONObject("external_metadata");
+                    JSONObject deezer = external_metadata.getJSONObject("deezer");
+                    deezer = deezer.getJSONObject("track");
+                    String deezerID = deezer.getString("id");
+                    trackID = Long.parseLong(deezerID);
+                    System.out.println("DEEZER TRACK ID: " + deezerID);
+
+                    showCoverPhoto();
+
+
                     //Music Title
                     title = tt.getString("title");
-                    tres = "Title: " + title;
+                    tres = "Title: " + title + "\n";
 
                     //Artists names
                     JSONArray artists = tt.getJSONArray("artists");
                     JSONObject art = (JSONObject) artists.get(0);
                     artist = art.getString("name");
-                    tres = tres + "    Artist: " + artist;
+                    tres = tres + "Artist: " + artist ;
                     //If number of artists > 1
                     for(int i=1; i<artists.length(); i++){
                         art = (JSONObject) artists.get(i);
                         artist = art.getString("name");
                         tres = tres + " , " + artist ;
                     }
+                    tres = tres + "\n";
 
                     //Album Name
                     JSONObject tempAlbum = tt.getJSONObject("album");
                     album = tempAlbum.getString("name");
-                    tres = tres + "    Album: " + album + "\n";
+                    tres = tres + "Album: " + album + "\n";
 
                 }
 
                 //Recognize Lyrics and show them
                 new LyricsAdapter().execute(artist,title);
 
-                tres = tres + "\n\n" + result + "\n\n";
+//                tres = tres + "\n\n" + result + "\n\n";
+                tres = tres + "\n\n";
+
             }else{
-                tres = result;
+//                tres = result;
             }
         } catch (JSONException e) {
             tres = result;
@@ -281,6 +317,55 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
     @Override
     public void onRadioMetadataResult(String s) {
         mResult.setText(s);
+    }
+
+    public void deezerPermissions(){
+
+        deezerConnect = new DeezerConnect(getApplicationContext(), applicationID);
+        // The set of Deezer Permissions needed by the app
+//        String[] permissions = new String[] {
+//                Permissions.BASIC_ACCESS,
+//                Permissions.MANAGE_LIBRARY,
+//                Permissions.LISTENING_HISTORY};
+        String [] permissions = new String[0];
+
+        // The listener for authentication events
+        DialogListener listener = new DialogListener() {
+
+            public void onComplete(Bundle values) {}
+
+            public void onCancel() {}
+
+            public void onException(Exception e) {}
+        };
+        // Launches the authentication process
+//        deezerConnect.authorize(this, permissions, listener);
+    }
+    public void showCoverPhoto(){
+
+        // the request listener
+        RequestListener requestListener = new JsonRequestListener() {
+
+            public void onResult(Object result, Object requestId) {
+                Track track = (Track) result;
+                System.out.println(track);
+                Album coverAlbum = track.getAlbum();
+                String coverURL = coverAlbum.getCoverUrl()+ "?size=xl";
+                Picasso.get().load(coverURL).into(coverImageView);
+            }
+
+            public void onUnparsedResult(String requestResponse, Object requestId) {}
+
+            public void onException(Exception e, Object requestId) {}
+        };
+        // create the request
+        DeezerRequest request = DeezerRequestFactory.requestTrack(trackID);
+
+        // set a requestId, that will be passed on the listener's callback methods
+        request.setId("myRequest");
+
+        // launch the request asynchronously
+        deezerConnect.requestAsync(request, requestListener);
     }
 
 
