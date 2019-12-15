@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MuID.iml" filepath="$PROJECT_DIR$/MuID.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deezer-sdk-0.11.2/deezer-sdk-0.11.2.iml" filepath="$PROJECT_DIR$/deezer-sdk-0.11.2/deezer-sdk-0.11.2.iml" />
     </modules>
   </component>
 </project>

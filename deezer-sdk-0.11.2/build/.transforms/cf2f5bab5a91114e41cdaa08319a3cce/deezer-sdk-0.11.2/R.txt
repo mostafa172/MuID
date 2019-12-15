@@ -1,0 +1,3 @@
+int drawable _dz_dialog_close 0x7f020000
+int string deezer_sdk 0x7f030000
+int string ssl_error_message 0x7f030001

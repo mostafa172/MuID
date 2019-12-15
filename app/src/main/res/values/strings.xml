@@ -18,5 +18,6 @@
     <string name="host">identify-eu-west-1.acrcloud.com</string>
     <string name="access_key">c0e47551931c9fec17afd1d6c6a953db</string>
     <string name="access_secret">cEu4A0Whk9ShZ8Cnxn9zxoKheupt0i2We5WaG968</string>
+    <string name="application_id">385124</string>
 
 </resources>

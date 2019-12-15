@@ -1,0 +1,4 @@
+com.deezer.sdk
+drawable _dz_dialog_close
+string deezer_sdk
+string ssl_error_message
