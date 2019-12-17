@@ -52,7 +52,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 //    private long stopTime = 0;
 
     static String title, artist, album, lyrics;
-    static long trackID;
+    static long trackID = -1;
 
     static DeezerConnect deezerConnect;
 
@@ -184,7 +184,6 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
         try {
             JSONObject j = new JSONObject(result);
-            System.out.println("ANA HENA: " + j);
             JSONObject j1 = j.getJSONObject("status");
             int j2 = j1.getInt("code");
             if (j2 == 0) {
@@ -193,28 +192,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                 if (metadata.has("music")) {
                     JSONArray musics = metadata.getJSONArray("music");
 
-                    //For more than one recognition
-//                    for(int i=0; i<musics.length(); i++) {
-//                        JSONObject tt = (JSONObject) musics.get(i);
-//                        title = tt.getString("title");
-//                        JSONArray artistt = tt.getJSONArray("artists");
-//                        JSONObject art = (JSONObject) artistt.get(0);
-//                        artist = art.getString("name");
-//                        tres = tres + (i+1) + ".  Title: " + title + "    Artist: " + artist + "\n";
-//                    }
-
                     //Splitting music information
                     JSONObject tt = (JSONObject) musics.get(0);
-
-                    //Deezer
-                    JSONObject external_metadata = tt.getJSONObject("external_metadata");
-                    JSONObject deezer = external_metadata.getJSONObject("deezer");
-                    deezer = deezer.getJSONObject("track");
-                    String deezerID = deezer.getString("id");
-                    trackID = Long.parseLong(deezerID);
-                    System.out.println("DEEZER TRACK ID: " + deezerID);
-
-//                    showCoverPhoto();
 
 
                     //Music Title
@@ -239,6 +218,18 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     album = tempAlbum.getString("name");
                     tres = tres + "Album: " + album + "\n";
 
+                    //Deezer
+
+                    JSONObject external_metadata = tt.getJSONObject("external_metadata");
+                    System.out.println("hwa da satr el exception 3ashan msh byla2y deezer  " + external_metadata.getJSONObject("deezer"));
+                    JSONObject deezer = external_metadata.getJSONObject("deezer");
+                    deezer = deezer.getJSONObject("track");
+                    String deezerID = deezer.getString("id");
+                    trackID = Long.parseLong(deezerID);
+                    System.out.println("DEEZER TRACK ID: " + deezerID);
+
+//                    showCoverPhoto();
+
                 }
 
                 //Recognize Lyrics and show them
@@ -248,10 +239,13 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                 tres = tres + "\n\n";
 
             } else {
+                resultString = "No Results Found!";
+                activity.noResult(resultString);
 //                tres = result;
             }
         } catch (JSONException e) {
-            tres = result;
+            new LyricsAdapter().execute(artist, title);
+            tres = tres + "\n\n";
             e.printStackTrace();
         }
 
@@ -289,34 +283,41 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     public void showCoverPhoto() {
 
-        // the request listener
-        RequestListener requestListener = new JsonRequestListener() {
+        if(trackID != -1){
+            // the request listener
+            RequestListener requestListener = new JsonRequestListener() {
 
-            public void onResult(Object result, Object requestId) {
-                Track track = (Track) result;
-                System.out.println(track);
-                Album coverAlbum = track.getAlbum();
+                public void onResult(Object result, Object requestId) {
+                    Track track = (Track) result;
+                    System.out.println(track);
+                    Album coverAlbum = track.getAlbum();
 //                String coverURL = coverAlbum.getCoverUrl()+ "?size=xl";
-                String coverURL = coverAlbum.getBigImageUrl();
-                System.out.println(coverURL);
+                    String coverURL = coverAlbum.getBigImageUrl();
+                    System.out.println(coverURL);
 //                Picasso.get().load(coverURL).into(coverImageView);
-                activity.coverPhotoChanged(coverURL);
-            }
+                    activity.coverPhotoChanged(coverURL);
+                }
 
-            public void onUnparsedResult(String requestResponse, Object requestId) {
-            }
+                public void onUnparsedResult(String requestResponse, Object requestId) {
+                }
 
-            public void onException(Exception e, Object requestId) {
-            }
-        };
-        // create the request
-        DeezerRequest request = DeezerRequestFactory.requestTrack(trackID);
+                public void onException(Exception e, Object requestId) {
+                }
+            };
+            // create the request
+            DeezerRequest request = DeezerRequestFactory.requestTrack(trackID);
 
-        // set a requestId, that will be passed on the listener's callback methods
-        request.setId("myRequest");
+            // set a requestId, that will be passed on the listener's callback methods
+            request.setId("myRequest");
 
-        // launch the request asynchronously
-        deezerConnect.requestAsync(request, requestListener);
+            // launch the request asynchronously
+            deezerConnect.requestAsync(request, requestListener);
+        }
+        else {
+            System.out.println("EL URL EQUALS " + "");
+            activity.coverPhotoChanged("");
+        }
+
     }
 
 

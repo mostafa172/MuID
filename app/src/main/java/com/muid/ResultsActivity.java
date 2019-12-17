@@ -21,6 +21,10 @@ public class ResultsActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.result);
         textView.setText(result);
         ImageView    coverImageView = (ImageView) findViewById(R.id.coverImageView);
-        Picasso.get().load(url).into(coverImageView);
+        if(url.equals(""))
+            coverImageView.setImageResource(R.drawable.no_cover_found);
+        else
+            Picasso.get().load(url).into(coverImageView);
+
     }
 }

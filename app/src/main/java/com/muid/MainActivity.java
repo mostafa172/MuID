@@ -101,6 +101,13 @@ public class MainActivity extends AppCompatActivity  {
         Intent intent = new Intent(this, ResultsActivity.class);
         intent.putExtra(RESULT_INTENT, result);
         intent.putExtra(COVERART_INTENT, URL);
+        finish();
+        startActivity(intent);
+    }
+
+    public void noResult(String result) {
+        Intent intent = new Intent(this, NoResultsActivity.class);
+        finish();
         startActivity(intent);
     }
     public void volumeChanged(String result) {
