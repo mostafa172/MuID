@@ -1,6 +1,7 @@
 package com.muid;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -8,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 
 
 public class MainActivity extends AppCompatActivity  {
@@ -17,6 +18,11 @@ public class MainActivity extends AppCompatActivity  {
     private TextView mVolume, mResult, tv_time;
     private ImageView coverImageView;
     private MuID MuID;
+    public static final String RESULT_INTENT = "Receive Result";
+    public static final String COVERART_INTENT = "cover art";
+    public static final String VOLUME_INTENT = "VOLUME";
+    private String /*result,*/URL;
+    double volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +30,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(com.muid.R.layout.activity_main);
 
 
-        mVolume = (TextView) findViewById(com.muid.R.id.volume);
+//        mVolume = (TextView) findViewById(com.muid.R.id.volume);
         mResult = (TextView) findViewById(com.muid.R.id.result);
         tv_time = (TextView) findViewById(com.muid.R.id.time);
 
@@ -85,19 +91,30 @@ public class MainActivity extends AppCompatActivity  {
 
 
     public void resultChanged(String result) {
-        mResult.setText(result);
+//        mResult.setText(result);
     }
-    public void addToResult(String result) {
-        mResult.setText( mResult.getText()+result);
+    public void showResult(String result) {
+//        mResult.setText( mResult.getText()+result);
+
+//        EditText editText = (EditText) findViewById(R.id.editText);
+//        String message = editText.getText().toString();
+        Intent intent = new Intent(this, ResultsActivity.class);
+        intent.putExtra(RESULT_INTENT, mResult.getText()+result);
+        intent.putExtra(COVERART_INTENT, URL);
+//        intent.putExtra(VOLUME_INTENT, volume);
+        startActivity(intent);
     }
     public void volumeChanged(String result) {
-        mVolume.setText(result);
+//        mVolume.setText(result);
+//        volume =result;
+        volume= MuID.getRecordedVolume();
     }
-    public void tv_timeChanged(String result) {
-        tv_time.setText(result);
-    }
+//    public void tv_timeChanged(String result) {
+////        tv_time.setText(result);
+//    }
     public void coverPhotoChanged(String coverURL) {
-        Picasso.get().load(coverURL).into(coverImageView);
+        URL=coverURL;
+//        Picasso.get().load(coverURL).into(coverImageView)
     }
 
 }

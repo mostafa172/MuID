@@ -66,8 +66,14 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     static String[] lyricsSources = {"Genius", "A-Z Lyrics", "MusixMatch", "MusicMatch", "LyricsFreak"};
     private Context context;
     private double recordedVolume = 0;
-//    ValuesChangedCallback callback;
+
+    public double getRecordedVolume() {
+        return recordedVolume;
+    }
+
+    //    ValuesChangedCallback callback;
     private MainActivity activity;
+    private String resultString;
 
     public MuID(Context C,/* TextView mVolume, TextView mResult, TextView tv_time, ImageView coverImView,*/MainActivity activity) {
 
@@ -132,11 +138,13 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 //            mVolume.setText("");
             activity.volumeChanged("");
 //            mResult.setText("");
-            activity.resultChanged("");
+//            activity.resultChanged("");
+            resultString="";
             if (this.mClient == null || !this.mClient.startRecognize()) {
                 mProcessing = false;
 //                mResult.setText("start error!");
-                activity.resultChanged("start error!");
+//                activity.resultChanged("start error!");
+                resultString= "start error!";
             }
             startTime = System.currentTimeMillis();
         }
@@ -151,9 +159,10 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     public void reset() {
 //        tv_time.setText("");
-        activity.tv_timeChanged("");
+//        activity.tv_timeChanged("");
 //        mResult.setText("");
-        activity.resultChanged("");
+//        activity.resultChanged("");
+        resultString="";
         mProcessing = false;
     }
 
@@ -205,7 +214,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     trackID = Long.parseLong(deezerID);
                     System.out.println("DEEZER TRACK ID: " + deezerID);
 
-                    showCoverPhoto();
+//                    showCoverPhoto();
 
 
                     //Music Title
@@ -247,7 +256,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         }
 
 //        mResult.setText(tres);
-        activity.resultChanged(tres);
+//        activity.resultChanged(tres);
+        resultString=tres;
         startTime = System.currentTimeMillis();
     }
 
@@ -273,7 +283,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     @Override
     public void onRadioMetadataResult(String s) {
 //        mResult.setText(s);
-        activity.resultChanged(s);
+//        activity.resultChanged(s);
+        resultString=s;
     }
 
     public void showCoverPhoto() {
@@ -313,6 +324,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     private class LyricsAdapter extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
+            showCoverPhoto();
 //            String tempURL = "http://api.musixmatch.com/ws/1.1/matcher.track.get?apikey=" + getApplicationContext().getString(com.muid.R.string.api_key);
 //            if (!params[0].equals("<unknown>")) {
 //                tempURL += "&q_track=" + params[0];
@@ -398,7 +410,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         @Override
         protected void onPostExecute(String result) {
 //            mResult.setText(mResult.getText() + lyrics);
-            activity.addToResult(lyrics);
+            resultString =resultString+lyrics;
+            activity.showResult(resultString);
             lyrics = "";
         }
 
