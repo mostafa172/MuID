@@ -15,12 +15,12 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity  {
 
-    private TextView mVolume, mResult, tv_time;
-    private ImageView coverImageView;
+    private TextView mVolume/*, mResult, tv_time*/;
+//    private ImageView coverImageView;
     private MuID MuID;
     public static final String RESULT_INTENT = "Receive Result";
     public static final String COVERART_INTENT = "cover art";
-    public static final String VOLUME_INTENT = "VOLUME";
+//    public static final String VOLUME_INTENT = "VOLUME";
     private String /*result,*/URL;
     double volume;
 
@@ -30,11 +30,11 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(com.muid.R.layout.activity_main);
 
 
-//        mVolume = (TextView) findViewById(com.muid.R.id.volume);
-        mResult = (TextView) findViewById(com.muid.R.id.result);
-        tv_time = (TextView) findViewById(com.muid.R.id.time);
-
-        coverImageView = (ImageView) findViewById(R.id.coverImageView);
+        mVolume = (TextView) findViewById(com.muid.R.id.volume);
+//        mResult = (TextView) findViewById(com.muid.R.id.result);
+//        tv_time = (TextView) findViewById(com.muid.R.id.time);
+//
+//        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
         this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this);
 
@@ -90,22 +90,21 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    public void resultChanged(String result) {
-//        mResult.setText(result);
-    }
+//    public void resultChanged(String result) {
+////        mResult.setText(result);
+//    }
     public void showResult(String result) {
 //        mResult.setText( mResult.getText()+result);
 
 //        EditText editText = (EditText) findViewById(R.id.editText);
 //        String message = editText.getText().toString();
         Intent intent = new Intent(this, ResultsActivity.class);
-        intent.putExtra(RESULT_INTENT, mResult.getText()+result);
+        intent.putExtra(RESULT_INTENT, result);
         intent.putExtra(COVERART_INTENT, URL);
-//        intent.putExtra(VOLUME_INTENT, volume);
         startActivity(intent);
     }
     public void volumeChanged(String result) {
-//        mVolume.setText(result);
+        mVolume.setText(result);
 //        volume =result;
         volume= MuID.getRecordedVolume();
     }
