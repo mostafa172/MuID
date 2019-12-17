@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
 
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity  {
 
     private TextView mVolume, mResult, tv_time;
     private ImageView coverImageView;
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
-        this.MuID = new MuID(getApplicationContext(), mVolume, mResult, tv_time, coverImageView);
+        this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this);
 
         //Start Listening
         findViewById(com.muid.R.id.start).setOnClickListener(new View.OnClickListener() {
@@ -80,4 +82,22 @@ public class MainActivity extends AppCompatActivity {
 
         MuID.Destroy();
     }
+
+
+    public void resultChanged(String result) {
+        mResult.setText(result);
+    }
+    public void addToResult(String result) {
+        mResult.setText( mResult.getText()+result);
+    }
+    public void volumeChanged(String result) {
+        mVolume.setText(result);
+    }
+    public void tv_timeChanged(String result) {
+        tv_time.setText(result);
+    }
+    public void coverPhotoChanged(String coverURL) {
+        Picasso.get().load(coverURL).into(coverImageView);
+    }
+
 }

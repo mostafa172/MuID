@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acrcloud.rec.ACRCloudClient;
@@ -24,7 +22,6 @@ import com.deezer.sdk.network.request.event.JsonRequestListener;
 import com.deezer.sdk.network.request.event.RequestListener;
 import com.jagrosh.jlyrics.Lyrics;
 import com.jagrosh.jlyrics.LyricsClient;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +34,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     private final static String TAG = "MainActivity";
 
-    private TextView mVolume, mResult, tv_time;
-    protected ImageView coverImageView;
+//    private TextView mVolume, mResult, tv_time;
+//    protected ImageView coverImageView;
 
     private boolean mProcessing = false;
     //    private boolean mAutoRecognizing = false;
@@ -69,8 +66,10 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     static String[] lyricsSources = {"Genius", "A-Z Lyrics", "MusixMatch", "MusicMatch", "LyricsFreak"};
     private Context context;
     private double recordedVolume = 0;
+//    ValuesChangedCallback callback;
+    private MainActivity activity;
 
-    public MuID(Context C, TextView mVolume, TextView mResult, TextView tv_time, ImageView coverImView) {
+    public MuID(Context C,/* TextView mVolume, TextView mResult, TextView tv_time, ImageView coverImView,*/MainActivity activity) {
 
         //For saving previous searches
         path = Environment.getExternalStorageDirectory().toString()
@@ -82,10 +81,11 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
             file.mkdirs();
         }
         this.context = C;
-        this.mVolume = mVolume;
-        this.mResult = mResult;
-        this.tv_time = tv_time;
-        this.coverImageView = coverImView;
+//        this.mVolume = mVolume;
+//        this.mResult = mResult;
+//        this.tv_time = tv_time;
+//        this.coverImageView = coverImView;
+        this.activity=activity;
 
         applicationID = context.getString(R.string.application_id);
         deezerConnect = new DeezerConnect(context, applicationID);
@@ -129,11 +129,14 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
         if (!mProcessing) {
             mProcessing = true;
-            mVolume.setText("");
-            mResult.setText("");
+//            mVolume.setText("");
+            activity.volumeChanged("");
+//            mResult.setText("");
+            activity.resultChanged("");
             if (this.mClient == null || !this.mClient.startRecognize()) {
                 mProcessing = false;
-                mResult.setText("start error!");
+//                mResult.setText("start error!");
+                activity.resultChanged("start error!");
             }
             startTime = System.currentTimeMillis();
         }
@@ -147,8 +150,10 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     }
 
     public void reset() {
-        tv_time.setText("");
-        mResult.setText("");
+//        tv_time.setText("");
+        activity.tv_timeChanged("");
+//        mResult.setText("");
+        activity.resultChanged("");
         mProcessing = false;
     }
 
@@ -241,7 +246,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
             e.printStackTrace();
         }
 
-        mResult.setText(tres);
+//        mResult.setText(tres);
+        activity.resultChanged(tres);
         startTime = System.currentTimeMillis();
     }
 
@@ -249,7 +255,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     public void onVolumeChanged(double volume) {
         long time = (System.currentTimeMillis() - startTime) / 1000;
         recordedVolume = volume;
-        mVolume.setText("Volume" + volume + "\n\nTime: " + time + " s");
+//        mVolume.setText("Volume" + volume + "\n\nTime: " + time + " s");
+        activity.volumeChanged("Volume" + volume + "\n\nTime: " + time + " s");
     }
 
 
@@ -265,7 +272,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     @Override
     public void onRadioMetadataResult(String s) {
-        mResult.setText(s);
+//        mResult.setText(s);
+        activity.resultChanged(s);
     }
 
     public void showCoverPhoto() {
@@ -280,7 +288,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 //                String coverURL = coverAlbum.getCoverUrl()+ "?size=xl";
                 String coverURL = coverAlbum.getBigImageUrl();
                 System.out.println(coverURL);
-                Picasso.get().load(coverURL).into(coverImageView);
+//                Picasso.get().load(coverURL).into(coverImageView);
+                activity.coverPhotoChanged(coverURL);
             }
 
             public void onUnparsedResult(String requestResponse, Object requestId) {
@@ -388,7 +397,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
         @Override
         protected void onPostExecute(String result) {
-            mResult.setText(mResult.getText() + lyrics);
+//            mResult.setText(mResult.getText() + lyrics);
+            activity.addToResult(lyrics);
             lyrics = "";
         }
 
