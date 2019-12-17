@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 
 
         applicationID = this.getString(R.string.application_id);
-        deezerPermissions();
+        deezerConnect = new DeezerConnect(getApplicationContext(), applicationID);
 
         //Start Listening
         findViewById(com.muid.R.id.start).setOnClickListener(new View.OnClickListener() {
@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
 
         try {
             JSONObject j = new JSONObject(result);
+            System.out.println("ANA HENA: " + j);
             JSONObject j1 = j.getJSONObject("status");
             int j2 = j1.getInt("code");
             if(j2 == 0){
@@ -319,28 +320,6 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
         mResult.setText(s);
     }
 
-    public void deezerPermissions(){
-
-        deezerConnect = new DeezerConnect(getApplicationContext(), applicationID);
-        // The set of Deezer Permissions needed by the app
-//        String[] permissions = new String[] {
-//                Permissions.BASIC_ACCESS,
-//                Permissions.MANAGE_LIBRARY,
-//                Permissions.LISTENING_HISTORY};
-        String [] permissions = new String[0];
-
-        // The listener for authentication events
-        DialogListener listener = new DialogListener() {
-
-            public void onComplete(Bundle values) {}
-
-            public void onCancel() {}
-
-            public void onException(Exception e) {}
-        };
-        // Launches the authentication process
-//        deezerConnect.authorize(this, permissions, listener);
-    }
     public void showCoverPhoto(){
 
         // the request listener
@@ -350,7 +329,9 @@ public class MainActivity extends AppCompatActivity implements IACRCloudListener
                 Track track = (Track) result;
                 System.out.println(track);
                 Album coverAlbum = track.getAlbum();
-                String coverURL = coverAlbum.getCoverUrl()+ "?size=xl";
+//                String coverURL = coverAlbum.getCoverUrl()+ "?size=xl";
+                String coverURL = coverAlbum.getBigImageUrl();
+                System.out.println(coverURL);
                 Picasso.get().load(coverURL).into(coverImageView);
             }
 
