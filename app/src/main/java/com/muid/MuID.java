@@ -411,7 +411,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         @Override
         protected void onPostExecute(String result) {
 //            mResult.setText(mResult.getText() + lyrics);
-            resultString =resultString+lyrics;
+//            resultString =resultString /*+lyrics*/;
+            activity.recieveLyrics(lyrics);
             activity.showResult(resultString);
             lyrics = "";
         }

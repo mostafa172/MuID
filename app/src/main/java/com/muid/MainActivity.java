@@ -18,11 +18,13 @@ public class MainActivity extends AppCompatActivity  {
     private TextView mVolume/*, mResult, tv_time*/;
 //    private ImageView coverImageView;
     private MuID MuID;
-    public static final String RESULT_INTENT = "Receive Result";
-    public static final String COVERART_INTENT = "cover art";
+    public static final String RESULT_INTENT = "ReceiveResult";
+    public static final String COVERART_INTENT = "URL";
+    public static final String  LYRICS_INTENT = "lYRICS";
 //    public static final String VOLUME_INTENT = "VOLUME";
-    private String /*result,*/URL;
+    private String /*result,*/URL , lyrics ="";
     double volume;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +102,19 @@ public class MainActivity extends AppCompatActivity  {
 //        String message = editText.getText().toString();
         Intent intent = new Intent(this, ResultsActivity.class);
         intent.putExtra(RESULT_INTENT, result);
+//        System.out.println("Url main activity"+URL);
         intent.putExtra(COVERART_INTENT, URL);
-        finish();
+
+        intent.putExtra(LYRICS_INTENT, lyrics);
+        URL ="";
+        lyrics="";
+
+//        finish();
         startActivity(intent);
+    }
+    public void recieveLyrics(String lyrics){
+        this.lyrics =lyrics;
+
     }
 
     public void noResult(String result) {
