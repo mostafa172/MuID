@@ -162,7 +162,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 //        activity.tv_timeChanged("");
 //        mResult.setText("");
 //        activity.resultChanged("");
-        resultString="";
+        resultString = "";
+        trackID = -1;
         mProcessing = false;
     }
 
@@ -208,8 +209,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     //If number of artists > 1
                     for (int i = 1; i < artists.length(); i++) {
                         art = (JSONObject) artists.get(i);
-                        artist = art.getString("name");
-                        tres = tres + " , " + artist;
+//                        artist = art.getString("name");
+                        tres = tres + " , " + art.getString("name");
                     }
                     tres = tres + "\n";
 
@@ -326,43 +327,6 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         @Override
         protected String doInBackground(String... params) {
             showCoverPhoto();
-//            String tempURL = "http://api.musixmatch.com/ws/1.1/matcher.track.get?apikey=" + getApplicationContext().getString(com.muid.R.string.api_key);
-//            if (!params[0].equals("<unknown>")) {
-//                tempURL += "&q_track=" + params[0];
-//            }
-//
-//            if (!params[1].equals("<unknown>")) {
-//                tempURL += "&q_artist=" + params[1];
-//            }
-//
-//            try{
-//                URL url = new URL(tempURL);
-//                System.out.println(url);
-//                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//                InputStream is = urlConnection.getInputStream();
-//                String tempString = new String(ByteStreams.toByteArray(is));
-//                JSONObject jsonObject = new JSONObject(tempString);
-//                JSONObject obj = jsonObject.getJSONObject("message");
-//
-//                if (!obj.getString("body").isEmpty()){
-//                    obj = obj.getJSONObject("body").getJSONObject("track");
-//                    String trackId = obj.getString("track_id");
-//                    urlConnection.disconnect();
-//
-//                    tempURL = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=" + getApplicationContext().getString(com.muid.R.string.api_key) + "&track_id=" + trackId;
-//                    url = new URL(tempURL);
-//                    urlConnection = (HttpURLConnection) url.openConnection();
-//                    is = urlConnection.getInputStream();
-//                    tempString = new String(ByteStreams.toByteArray(is));
-//                    jsonObject = new JSONObject(tempString);
-//                    lyrics = jsonObject.getJSONObject("message").getJSONObject("body").getJSONObject("lyrics").getString("lyrics_body");
-//                    urlConnection.disconnect();
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
 
             try {
 //                Lyrics lyricsRequest = null;

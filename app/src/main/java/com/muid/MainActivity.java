@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity  {
     private MuID MuID;
     public static final String RESULT_INTENT = "ReceiveResult";
     public static final String COVERART_INTENT = "URL";
-    public static final String  LYRICS_INTENT = "lYRICS";
+    public static final String  LYRICS_INTENT = "LYRICS";
 //    public static final String VOLUME_INTENT = "VOLUME";
     private String /*result,*/URL , lyrics ="";
     double volume;
