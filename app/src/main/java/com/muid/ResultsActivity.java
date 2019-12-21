@@ -2,19 +2,13 @@ package com.muid;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 
 public class ResultsActivity extends FragmentActivity implements LyricsFragment.OnFragmentInteractionListener, result_fragment.OnFragmentInteractionListener {
     static String result, url, lyrics;
@@ -29,6 +23,7 @@ public class ResultsActivity extends FragmentActivity implements LyricsFragment.
         result = intent.getStringExtra(MainActivity.RESULT_INTENT);
         url = intent.getStringExtra(MainActivity.COVERART_INTENT);
         lyrics = intent.getStringExtra(MainActivity.LYRICS_INTENT);
+
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
@@ -145,4 +140,6 @@ public class ResultsActivity extends FragmentActivity implements LyricsFragment.
         }
 
     }
+
+
 }

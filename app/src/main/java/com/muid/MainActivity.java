@@ -1,19 +1,19 @@
 package com.muid;
 
 import android.Manifest;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.net.URL;
+;import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     private TextView mVolume/*, mResult, tv_time*/;
 //    private ImageView coverImageView;
@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity  {
 //    public static final String VOLUME_INTENT = "VOLUME";
     private String /*result,*/URL , lyrics ="";
     double volume;
+
+    static MusicRoomDatabase musicRoomDatabase;
 
 
     @Override
@@ -38,8 +40,22 @@ public class MainActivity extends AppCompatActivity  {
 //
 //        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
+        musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
+
+
+
         this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this);
 
+
+        findViewById(com.muid.R.id.saved).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(getApplicationContext(), SavedMuIDActivity.class);
+//                finish();
+                startActivity(intent);
+            }
+        });
         //Start Listening
         findViewById(com.muid.R.id.start).setOnClickListener(new View.OnClickListener() {
 
@@ -106,6 +122,15 @@ public class MainActivity extends AppCompatActivity  {
         intent.putExtra(COVERART_INTENT, URL);
 
         intent.putExtra(LYRICS_INTENT, lyrics);
+
+        /////////DATABASE INPUTTTT HANDLING
+        MusicDao musicDao = musicRoomDatabase.getMusicDao();
+        Music music = new Music(result, URL, lyrics);
+
+        musicDao.insert(music);
+        List<Music> items = musicDao.getAll();
+        System.out.println("DB ITEMS :" + items);
+
         URL ="";
         lyrics="";
 
@@ -139,5 +164,6 @@ public class MainActivity extends AppCompatActivity  {
         URL=coverURL;
 //        Picasso.get().load(coverURL).into(coverImageView)
     }
+
 
 }

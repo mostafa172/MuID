@@ -1,7 +1,6 @@
 package com.muid;
 
 import android.content.Context;
-//import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -237,7 +236,6 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                 new LyricsAdapter().execute(artist, title);
 
 //                tres = tres + "\n\n" + result + "\n\n";
-                tres = tres + "\n\n";
 
             } else {
                 resultString = "No Results Found!";
@@ -286,7 +284,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
         if(coverID == -1){
             System.out.println("EL URL EQUALS " + "");
-            activity.coverPhotoChanged("");
+            activity.coverPhotoChanged("not found");
         }
         else {
             // the request listener

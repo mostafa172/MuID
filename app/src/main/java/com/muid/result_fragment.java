@@ -107,7 +107,7 @@ public class result_fragment extends Fragment {
 //        textView.setText(result +"\n"+lyrics);
         textView.setText(result);
         ImageView coverImageView = (ImageView) view.findViewById(R.id.coverImageView);
-        if(this.url.equalsIgnoreCase(""))
+        if(this.url.equalsIgnoreCase("not found"))
             coverImageView.setImageResource(R.drawable.no_cover_found);
         else
             Picasso.get().load(url).into(coverImageView);
