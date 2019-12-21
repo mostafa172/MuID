@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "46f554d55508eff58fe81ae55f918dd0",
+    "entities": [
+      {
+        "tableName": "music_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`music_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `result` TEXT, `url` TEXT, `lyrics` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "muID",
+            "columnName": "music_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "result",
+            "columnName": "result",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lyrics",
+            "columnName": "lyrics",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "music_id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"46f554d55508eff58fe81ae55f918dd0\")"
+    ]
+  }
+}
