@@ -49,8 +49,8 @@ public class SavedMuIDActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 musicDao.deleteAll();
-//                showSavedMusic();
-                //el hagat msh bttshal gher lma batla3 w badkhol tani
+                musicStringList.clear();
+                adapter.notifyDataSetChanged();
             }
         });
 
