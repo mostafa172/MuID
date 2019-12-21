@@ -25,8 +25,8 @@ import com.squareup.picasso.Picasso;
 public class result_fragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private String url;
@@ -58,14 +58,14 @@ public class result_fragment extends Fragment {
      * @return A new instance of fragment result_fragment.
      */
     // TODO: Rename and change types and number of parameters
-//    public static result_fragment newInstance(String param1, String param2) {
-//        result_fragment fragment = new result_fragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+    public static result_fragment newInstance(String param1, String param2) {
+        result_fragment fragment = new result_fragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class result_fragment extends Fragment {
 //            System.out.println("On Create");
 //            url = getArguments().getString(MainActivity.COVERART_INTENT);
 //            result = getArguments().getString(MainActivity.RESULT_INTENT);
-//            lyrics = getArguments().getString(MainActivity.LYRICS_INTENT);
+//            lyrics = getArguments().getString(MainActivity.lyrics_INTENT);
 //        }
 //       else System.out.println("On Create Not in if");
     }
@@ -85,7 +85,7 @@ public class result_fragment extends Fragment {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_result, container, false);
 //        ImageView imageView = (ImageView) getView().findViewById(R.id.foo);
-        Bundle bundle = mListener.getBundel();
+        Bundle bundle = mListener.getBundle();
         System.out.println("On Create Fragment");
         if (bundle != null) {
 //            System.out.println("On Create");
@@ -94,7 +94,7 @@ public class result_fragment extends Fragment {
             url = bundle.getString(MainActivity.COVERART_INTENT);
 //            System.out.println("On Create URL"+ url);
             result = bundle.getString(MainActivity.RESULT_INTENT);
-            lyrics =bundle.getString(MainActivity.LYRICS_INTENT);
+//            lyrics =bundle.getString(MainActivity.lyrics_INTENT);
         }
 //        else System.out.println("On Create Not in if");
         return inflater.inflate(R.layout.fragment_result, container, false);
@@ -104,14 +104,14 @@ public class result_fragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView textView = (TextView) view.findViewById(R.id.result);
-        textView.setText(result +"\n"+lyrics);
+//        textView.setText(result +"\n"+lyrics);
+        textView.setText(result);
         ImageView coverImageView = (ImageView) view.findViewById(R.id.coverImageView);
         if(this.url.equalsIgnoreCase(""))
             coverImageView.setImageResource(R.drawable.no_cover_found);
         else
             Picasso.get().load(url).into(coverImageView);
         url="";
-        lyrics="";
         result="";
 
     }
@@ -153,6 +153,6 @@ public class result_fragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-        Bundle getBundel();
+        Bundle getBundle();
     }
 }

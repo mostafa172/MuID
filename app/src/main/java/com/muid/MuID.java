@@ -51,7 +51,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     private long startTime = 0;
 //    private long stopTime = 0;
 
-    static String title, artist, album, lyrics;
+    static String title, artist, album, lyrics, URL;
     static long trackID = -1;
 
     static DeezerConnect deezerConnect;
@@ -282,9 +282,13 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         resultString=s;
     }
 
-    public void showCoverPhoto() {
+    public void showCoverPhoto(long coverID) {
 
-        if(trackID != -1){
+        if(coverID == -1){
+            System.out.println("EL URL EQUALS " + "");
+            activity.coverPhotoChanged("");
+        }
+        else {
             // the request listener
             RequestListener requestListener = new JsonRequestListener() {
 
@@ -294,6 +298,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     Album coverAlbum = track.getAlbum();
 //                String coverURL = coverAlbum.getCoverUrl()+ "?size=xl";
                     String coverURL = coverAlbum.getBigImageUrl();
+                    URL = coverURL;
                     System.out.println(coverURL);
 //                Picasso.get().load(coverURL).into(coverImageView);
                     activity.coverPhotoChanged(coverURL);
@@ -306,17 +311,13 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                 }
             };
             // create the request
-            DeezerRequest request = DeezerRequestFactory.requestTrack(trackID);
+            DeezerRequest request = DeezerRequestFactory.requestTrack(coverID);
 
             // set a requestId, that will be passed on the listener's callback methods
             request.setId("myRequest");
 
             // launch the request asynchronously
             deezerConnect.requestAsync(request, requestListener);
-        }
-        else {
-            System.out.println("EL URL EQUALS " + "");
-            activity.coverPhotoChanged("");
         }
 
     }
@@ -326,7 +327,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     private class LyricsAdapter extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            showCoverPhoto();
+            showCoverPhoto(trackID);
 
             try {
 //                Lyrics lyricsRequest = null;
@@ -376,9 +377,9 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         protected void onPostExecute(String result) {
 //            mResult.setText(mResult.getText() + lyrics);
 //            resultString =resultString /*+lyrics*/;
-            activity.recieveLyrics(lyrics);
+            activity.receiveLyrics(lyrics);
             activity.showResult(resultString);
-            lyrics = "";
+            activity.receiveCover(URL);
         }
 
         @Override

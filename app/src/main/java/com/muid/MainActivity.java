@@ -112,8 +112,13 @@ public class MainActivity extends AppCompatActivity  {
 //        finish();
         startActivity(intent);
     }
-    public void recieveLyrics(String lyrics){
+    public void receiveLyrics(String lyrics){
         this.lyrics =lyrics;
+
+    }
+
+    public void receiveCover(String coverURL){
+        this.URL =coverURL;
 
     }
 
