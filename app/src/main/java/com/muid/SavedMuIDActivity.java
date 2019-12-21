@@ -1,14 +1,17 @@
 package com.muid;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +30,11 @@ public class SavedMuIDActivity extends AppCompatActivity {
 
     Button deleteButton;
 
+    public static final String RESULT_INTENT = "ReceiveResult";
+    public static final String COVERART_INTENT = "URL";
+    public static final String  LYRICS_INTENT = "LYRICS";
+    private String result="", URL="" , lyrics ="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +52,29 @@ public class SavedMuIDActivity extends AppCompatActivity {
         musicDao = musicRoomDatabase.getMusicDao();
 
         showSavedMusic();
+
+        musicListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /* Parameters
+            parent:     The AdapterView where the click happened.
+            view:       The view within the AdapterView that was clicked (this will be a view provided by the adapter)
+            position:   The position of the view in the adapter.
+            id:         The row id of the item that was clicked. */
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //your code here
+                System.out.println("DB ITEM POSITION: " + position);
+                Intent intent = new Intent(SavedMuIDActivity.this, ResultsActivity.class);
+
+                Music savedMusic = musicList.get(position);
+                result = savedMusic.getResult();
+                URL = savedMusic.getUrl();
+                lyrics = savedMusic.getLyrics();
+                intent.putExtra(RESULT_INTENT, result);
+                intent.putExtra(COVERART_INTENT, URL);
+                intent.putExtra(LYRICS_INTENT, lyrics);
+                startActivity(intent);
+            }
+        });
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override

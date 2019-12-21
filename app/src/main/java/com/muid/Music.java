@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "music_table")
 public class Music {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "music_id")
     private int muID;
@@ -25,7 +25,8 @@ public class Music {
 
 
 
-    public Music(@NonNull String result,@NonNull String url,@NonNull String lyrics) {
+    public Music(@NonNull int muID, @NonNull String result,@NonNull String url,@NonNull String lyrics) {
+        this.muID = muID;
         this.result = result;
         this.url = url;
         this.lyrics = lyrics;
@@ -47,5 +48,10 @@ public class Music {
 
     public void setMuID(int muID) {
         this.muID = muID;
+    }
+
+    @Override
+    public String toString(){
+        return ("MuID: " + muID + "\n" + "Result: " + result + "\n" + "CoverURL: " + url + "\n" + "Lyrics: " + lyrics + "\n");
     }
 }

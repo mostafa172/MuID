@@ -125,11 +125,19 @@ public class MainActivity extends AppCompatActivity {
 
         /////////DATABASE INPUTTTT HANDLING
         MusicDao musicDao = musicRoomDatabase.getMusicDao();
-        Music music = new Music(result, URL, lyrics);
 
-        musicDao.insert(music);
         List<Music> items = musicDao.getAll();
-        System.out.println("DB ITEMS :" + items);
+        int i;
+        for(i = 0 ; i<items.size();i++)
+            System.out.println("DB ITEMS: " + items.get(i).toString());
+
+        Music music = new Music(i, result, URL, lyrics);
+        musicDao.insert(music);
+
+        items = musicDao.getAll();
+
+        for(i = 0 ; i<items.size();i++)
+            System.out.println("DB ITEMS 2: " + items.get(i).toString());
 
         URL ="";
         lyrics="";
