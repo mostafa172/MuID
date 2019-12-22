@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="5dip"
+    android:layout_marginTop="10dip"
+    android:layout_marginEnd="5dip"
     android:isScrollContainer="true"
     android:orientation="vertical">
 
