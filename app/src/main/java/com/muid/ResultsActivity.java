@@ -8,9 +8,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 
-public class ResultsActivity extends FragmentActivity implements LyricsFragment.OnFragmentInteractionListener, result_fragment.OnFragmentInteractionListener {
+public class ResultsActivity extends AppCompatActivity implements LyricsFragment.OnFragmentInteractionListener, result_fragment.OnFragmentInteractionListener {
     static String result, url, lyrics;
     FragmentPagerAdapter adapterViewPager;
 
@@ -18,6 +22,16 @@ public class ResultsActivity extends FragmentActivity implements LyricsFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("On create activity results");
+
+        // Displaying custom actionbar
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar);
+        getSupportActionBar().setElevation(0);
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+        getSupportActionBar().setTitle("Result");
+
+
         setContentView(R.layout.activity_results);
         Intent intent = getIntent();
         result = intent.getStringExtra(MainActivity.RESULT_INTENT);
@@ -75,6 +89,12 @@ public class ResultsActivity extends FragmentActivity implements LyricsFragment.
 //        fragmentTransaction.add(R.id.linearLayout, fragment);
 //        fragmentTransaction.commit();
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     @Override
