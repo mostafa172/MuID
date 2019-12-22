@@ -2,6 +2,7 @@ package com.muid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -16,18 +17,22 @@ public class NoResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_results);
 
+        // Displaying custom actionbar
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar);
+        getSupportActionBar().setElevation(0);
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+        getSupportActionBar().setTitle("No Result");
+
         TextView textView = (TextView) findViewById(R.id.noresult);
         textView.setText("NO RESULTS FOUND!");
 
-        Button tryAgain = (Button) findViewById(R.id.tryAgainButton);
-        tryAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                finish();
-                startActivity(intent);
-            }
-        });
+    }
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }

@@ -5,12 +5,13 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-;import java.util.List;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     static MusicRoomDatabase musicRoomDatabase;
     static MusicDao musicDao;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
 //
 //        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
+
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
-
 
 
         this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this);
@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void noResult(String result) {
         Intent intent = new Intent(this, NoResultsActivity.class);
-        finish();
         startActivity(intent);
     }
     public void volumeChanged(String result) {
@@ -176,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
 //        volume =result;
         volume= MuID.getRecordedVolume();
     }
+
 //    public void tv_timeChanged(String result) {
 ////        tv_time.setText(result);
 //    }
