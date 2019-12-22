@@ -55,7 +55,10 @@ public class ResultsArrayAdapter extends ArrayAdapter<String> {
 //        } else {
 //            imageView.setImageResource(R.drawable.ok);
 //        }
-        Picasso.get().load(s).into(imageView);
+        if(s.equalsIgnoreCase("not found"))
+            imageView.setImageResource(R.drawable.no_cover_found);
+        else
+            Picasso.get().load(s).into(imageView);
 
         return rowView;
     }

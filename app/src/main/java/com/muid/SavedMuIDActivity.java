@@ -3,12 +3,14 @@ package com.muid;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,7 +32,7 @@ public class SavedMuIDActivity extends AppCompatActivity {
     List<Music> musicList;
     ListView musicListView;
 
-    Button deleteButton;
+    ImageView deleteButton;
 
     public static final String RESULT_INTENT = "ReceiveResult";
     public static final String COVERART_INTENT = "URL";
@@ -42,8 +44,21 @@ public class SavedMuIDActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_mu_id);
 
+
+        // Displaying custom actionbar
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar);
+        getSupportActionBar().setElevation(0);
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+        TextView nameTextView = findViewById(R.id.name);
+        nameTextView.setText("Search History");
+        View view = getSupportActionBar().getCustomView();
+
         musicListView = (ListView) findViewById(R.id.musicsList);
-        deleteButton = (Button) findViewById(R.id.deleteButton);
+        deleteButton = (ImageView) findViewById(R.id.delete);
+
+
 
 //        LayoutInflater inflater = LayoutInflater.from(this);
 
@@ -93,6 +108,12 @@ public class SavedMuIDActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     public void showSavedMusic(){
