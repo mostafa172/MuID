@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ public class SavedMuIDActivity extends AppCompatActivity {
 
     ArrayAdapter<String> adapter;
     ArrayList<String> musicStringList;
+    ArrayList<String> URLs;
 
     List<Music> musicList;
     ListView musicListView;
@@ -43,11 +45,16 @@ public class SavedMuIDActivity extends AppCompatActivity {
         musicListView = (ListView) findViewById(R.id.musicsList);
         deleteButton = (Button) findViewById(R.id.deleteButton);
 
+//        LayoutInflater inflater = LayoutInflater.from(this);
+
+//        View mButton  = inflater.inflate(R.layout.deletebtnlayout, null);
+//        musicListView.addFooterView(mButton);
+
 
         musicStringList = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, musicStringList);
+        URLs = new ArrayList<String>();
+        adapter = new ResultsArrayAdapter(getApplicationContext(), musicStringList,URLs);
         musicListView.setAdapter(adapter);
-
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
 
@@ -93,6 +100,7 @@ public class SavedMuIDActivity extends AppCompatActivity {
 
         for(int i=0; i < musicList.size(); i++){
             musicStringList.add(musicDao.getItemById(musicList.get(i).getMuID()).getResult());
+            URLs.add(musicDao.getItemById(musicList.get(i).getMuID()).getUrl());
             adapter.notifyDataSetChanged();
         }
     }

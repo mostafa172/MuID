@@ -4,22 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
     android:orientation="vertical">
 
 
     <ListView
         android:id="@+id/musicsList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:layout_weight="17"
+        android:divider="@null"
+        android:dividerHeight="0dp">
 
     </ListView>
 
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="right"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="2"
+        android:gravity="center|right|center_vertical"
         android:text="Delete History"
         android:textAlignment="center" />
 
