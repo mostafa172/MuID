@@ -16,6 +16,8 @@
             android:id="@+id/noresult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dip"
+            android:fontFamily="@font/audiowide"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="20sp"

@@ -3,40 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_2"
     tools:context=".result_fragment">
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/volume"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF" />
 
             <ImageView
                 android:id="@+id/coverImageView"
                 android:layout_width="250dip"
                 android:layout_height="250dip"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:layout_margin="5dip" />
 
             <TextView
                 android:id="@+id/result"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:fontFamily="@font/audiowide"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF" />
 

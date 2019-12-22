@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="80dip"
     android:layout_margin="5dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingVertical="3dip">
 
 
     <TextView
@@ -13,12 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="10"
+        android:fontFamily="@font/audiowide"
         android:gravity="center_vertical"
         android:paddingStart="5dip"
         android:paddingEnd="5dip"
         android:text="TextView"
         android:textColor="#FFFFFF"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:typeface="serif" />
 
     <ImageView
         android:id="@+id/resultIcon"

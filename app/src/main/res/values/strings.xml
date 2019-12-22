@@ -20,6 +20,7 @@
     <string name="access_secret">cEu4A0Whk9ShZ8Cnxn9zxoKheupt0i2We5WaG968</string>
     <string name="application_id">385124</string>
     <string name="no_results">Try Again</string>
+    <string name="search_history">Show Search History</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
