@@ -61,17 +61,18 @@ public class SavedMuIDActivity extends AppCompatActivity {
             id:         The row id of the item that was clicked. */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //your code here
-                System.out.println("DB ITEM POSITION: " + position);
+
                 Intent intent = new Intent(SavedMuIDActivity.this, ResultsActivity.class);
 
                 Music savedMusic = musicList.get(position);
                 result = savedMusic.getResult();
                 URL = savedMusic.getUrl();
                 lyrics = savedMusic.getLyrics();
+
                 intent.putExtra(RESULT_INTENT, result);
                 intent.putExtra(COVERART_INTENT, URL);
                 intent.putExtra(LYRICS_INTENT, lyrics);
+
                 startActivity(intent);
             }
         });

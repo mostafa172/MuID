@@ -12,7 +12,7 @@ public class Music {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "music_id")
-    private int muID;
+    private int muID = 0;
 
     @ColumnInfo(name = "result")
     private String result;

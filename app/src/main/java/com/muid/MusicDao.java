@@ -22,10 +22,14 @@ public interface MusicDao {
     @Query("SELECT * FROM music_table")
     List<Music> getAll();
 
-    @Query("SELECT * FROM music_table WHERE music_id = :id")
-    public Music getItemById(int id);
+    @Query("UPDATE music_table SET music_id =:muID-1 WHERE music_id = :muID")
+    void decrementMuID(int muID);
 
-    @Delete
-    void delete(Music music);
+    @Query("SELECT * FROM music_table WHERE music_id = :muID")
+    Music getItemById(int muID);
+
+    @Query ("DELETE FROM music_table WHERE music_id=(SELECT MIN(music_id) FROM music_table)")
+    void deleteFirstItem();
+
 }
 

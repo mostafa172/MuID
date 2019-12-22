@@ -244,7 +244,6 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
             }
         } catch (JSONException e) {
             new LyricsAdapter().execute(artist, title);
-            tres = tres + "\n\n";
             e.printStackTrace();
         }
 

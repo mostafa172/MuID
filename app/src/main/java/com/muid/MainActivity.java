@@ -22,10 +22,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String COVERART_INTENT = "URL";
     public static final String  LYRICS_INTENT = "LYRICS";
 //    public static final String VOLUME_INTENT = "VOLUME";
-    private String /*result,*/URL , lyrics ="";
+    private String /*result,*/URL="not found" , lyrics ="";
     double volume;
 
     static MusicRoomDatabase musicRoomDatabase;
+    static MusicDao musicDao;
 
 
     @Override
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 //        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
+        musicDao = musicRoomDatabase.getMusicDao();
 
 
 
@@ -118,31 +120,40 @@ public class MainActivity extends AppCompatActivity {
 //        String message = editText.getText().toString();
         Intent intent = new Intent(this, ResultsActivity.class);
         intent.putExtra(RESULT_INTENT, result);
-//        System.out.println("Url main activity"+URL);
         intent.putExtra(COVERART_INTENT, URL);
-
         intent.putExtra(LYRICS_INTENT, lyrics);
 
         /////////DATABASE INPUTTTT HANDLING
-        MusicDao musicDao = musicRoomDatabase.getMusicDao();
-
         List<Music> items = musicDao.getAll();
+
+        if(items.size() == 10){
+            musicDao.deleteFirstItem();
+            items = musicDao.getAll();
+            System.out.println("New Items Size: " + items.size());
+            for(int i=0; i<items.size();i++){
+                System.out.println("OLD ITEM Name: " + items.get(i).getResult());
+                System.out.println("OLD ITEM ID: " + items.get(i).getMuID());
+                musicDao.decrementMuID(items.get(i).getMuID());
+                System.out.println("NEW ITEM Name: " + items.get(i).getResult());
+                System.out.println("NEW ITEM ID: " + items.get(i).getMuID());
+            }
+        }
+
         int i;
-        for(i = 0 ; i<items.size();i++)
-            System.out.println("DB ITEMS: " + items.get(i).toString());
+        for(i = 0 ; i<items.size();i++);
 
         Music music = new Music(i, result, URL, lyrics);
         musicDao.insert(music);
 
         items = musicDao.getAll();
-
-        for(i = 0 ; i<items.size();i++)
-            System.out.println("DB ITEMS 2: " + items.get(i).toString());
+        for(int j = 0; j<items.size();j++){
+            System.out.println("FINAL ITEM Name: " + items.get(j).getResult());
+            System.out.println("FINAL ITEM ID: " + items.get(j).getMuID());
+        }
 
         URL ="";
         lyrics="";
 
-//        finish();
         startActivity(intent);
     }
     public void receiveLyrics(String lyrics){
