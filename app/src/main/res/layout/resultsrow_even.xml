@@ -24,6 +24,6 @@
         android:paddingStart="5dip"
         android:paddingEnd="5dip"
         android:text="TextView"
-        android:textColor="#311B92"
+        android:textColor="#FFFFFF"
         android:textSize="14sp" />
 </LinearLayout>
