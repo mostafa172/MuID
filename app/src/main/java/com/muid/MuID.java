@@ -1,6 +1,8 @@
 package com.muid;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -33,12 +35,14 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     private final static String TAG = "MainActivity";
 
+
 //    private TextView mVolume, mResult, tv_time;
 //    protected ImageView coverImageView;
 
     private boolean mProcessing = false;
     //    private boolean mAutoRecognizing = false;
     private boolean initState = false;
+
 
 //    private MediaPlayer mediaPlayer = new MediaPlayer();
 //    private boolean isPlaying = false;
@@ -121,6 +125,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
         this.mClient = new ACRCloudClient();
         ACRCloudLogger.setLog(true);
+
 
         this.initState = this.mClient.initWithConfig(this.mConfig);
 
