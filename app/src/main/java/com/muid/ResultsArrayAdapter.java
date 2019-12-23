@@ -12,10 +12,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-//public class ResultsArrayAdapter {
-//}
-
-
 
 public class ResultsArrayAdapter extends ArrayAdapter<String> {
     private final Context context;
@@ -27,7 +23,6 @@ public class ResultsArrayAdapter extends ArrayAdapter<String> {
         this.context = context;
         this.results = values;
         this.URLs=URLs;
-
 
     }
 
@@ -48,6 +43,7 @@ public class ResultsArrayAdapter extends ArrayAdapter<String> {
         TextView textView = (TextView) rowView.findViewById(R.id.resultText);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.resultIcon);
         textView.setText(results.get(position));
+
         // change the icon for Windows and iPhone
         String s = URLs.get(position);
 //        if (s.startsWith("iPhone")) {
