@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,9 +52,9 @@ public class SavedMuIDActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+        View view = getSupportActionBar().getCustomView();
         TextView nameTextView = findViewById(R.id.name);
         nameTextView.setText("Search History");
-        View view = getSupportActionBar().getCustomView();
 
         musicListView = (ListView) findViewById(R.id.musicsList);
         deleteButton = (ImageView) findViewById(R.id.delete);

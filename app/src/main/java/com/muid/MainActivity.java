@@ -4,11 +4,15 @@ import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -29,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     static MusicRoomDatabase musicRoomDatabase;
     static MusicDao musicDao;
 
+    static ImageView historyButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,16 @@ public class MainActivity extends AppCompatActivity {
 //
 //        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
+        // Displaying custom actionbar
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
+        getSupportActionBar().setElevation(0);
+        assert getSupportActionBar() != null;   //null check
+        View view = getSupportActionBar().getCustomView();
+        TextView nameTextView = findViewById(R.id.appTitle);
+        nameTextView.setText("MuID");
+
+        historyButton = (ImageView) findViewById(R.id.history);
 
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
@@ -49,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this);
 
 
-        findViewById(com.muid.R.id.saved).setOnClickListener(new View.OnClickListener() {
+        historyButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -58,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         //Start Listening
         findViewById(com.muid.R.id.start).setOnClickListener(new View.OnClickListener() {
 

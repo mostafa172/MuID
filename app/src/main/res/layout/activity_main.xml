@@ -24,13 +24,6 @@
                 android:text="@string/start" />
 
             <Button
-                android:id="@+id/saved"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/audiowide"
-                android:text="Show saved music" />
-
-            <Button
                 android:id="@+id/cancel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
