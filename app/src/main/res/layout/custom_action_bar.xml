@@ -35,7 +35,9 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/trash" />
+            android:src="@drawable/delete"
+            android:scaleType="centerInside"
+            />
 
     </LinearLayout>
 </LinearLayout>
