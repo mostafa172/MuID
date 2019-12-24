@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="appCustomColorPrimary">#2B3238</color>
     <color name="appCustomColorDark">#151515</color>
+    <color name="transparentColor">#00000000</color>
 </resources>

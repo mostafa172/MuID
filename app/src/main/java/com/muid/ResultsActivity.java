@@ -17,8 +17,13 @@ import android.widget.TextView;
 public class ResultsActivity extends AppCompatActivity implements LyricsFragment.OnFragmentInteractionListener, result_fragment.OnFragmentInteractionListener {
 //    static String result, url, lyrics;
 
-   static Song song;
+    static Song song;
     FragmentPagerAdapter adapterViewPager;
+    public static final String TITLE_INTENT = "ReceiveTitle";
+    public static final String ARTIST_INTENT = "ReceiveArtist";
+    public static final String ALBUM_INTENT = "ReceiveAlbum";
+
+    static Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
 
 
         setContentView(R.layout.activity_results);
-        Intent intent = getIntent();
+        intent = getIntent();
 //        result = intent.getStringExtra(MainActivity.RESULT_INTENT);
 //        url = intent.getStringExtra(MainActivity.COVERART_INTENT);
 //        lyrics = intent.getStringExtra(MainActivity.LYRICS_INTENT);
@@ -122,7 +127,10 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
 //        bundle.putString(MainActivity.LYRICS_INTENT, lyrics);
         bundle.putString(MainActivity.COVERART_INTENT, song.coverURL);
 //        System.out.println("url get bundle " + url);
-        bundle.putString(MainActivity.RESULT_INTENT, song.title);
+        song =(Song) intent.getSerializableExtra(MainActivity.RESULT_INTENT);
+        bundle.putString(TITLE_INTENT, song.title);
+        bundle.putString(ARTIST_INTENT, song.artist);
+        bundle.putString(ALBUM_INTENT, song.album);
         bundle.putString(MainActivity.LYRICS_INTENT, song.lyrics);
 //        url="";
 //        lyrics="";
@@ -150,7 +158,7 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
                 case 0: // Fragment # 0 - This will show FirstFragment
 //                    System.out.println("ANA F CASE 0: " + url + "\n" + "result");
 //                    return result_fragment.newInstance(url, result);
-                    return result_fragment.newInstance(song.coverURL, song.artist);
+                    return result_fragment.newInstance(song.coverURL, song.title);
 
                 case 1: // Fragment # 1 - This will show FirstFragment different title
 //                    System.out.println("ANA F CASE 1: " + lyrics);

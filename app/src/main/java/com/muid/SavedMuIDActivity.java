@@ -2,11 +2,15 @@ package com.muid;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,7 +42,7 @@ public class SavedMuIDActivity extends AppCompatActivity {
     public static final String RESULT_INTENT = "ReceiveResult";
     public static final String COVERART_INTENT = "URL";
     public static final String  LYRICS_INTENT = "LYRICS";
-    private String result="", URL="" , lyrics ="";
+    private String title="", artist="", album="", URL="" , lyrics ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +57,21 @@ public class SavedMuIDActivity extends AppCompatActivity {
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
         View view = getSupportActionBar().getCustomView();
-        TextView nameTextView = findViewById(R.id.name);
-        nameTextView.setText("Search History");
+//        TextView nameTextView = findViewById(R.id.name);
+//        nameTextView.setText("Search History");
+        Window window = getWindow();
+        ColorDrawable colorDrawable = new ColorDrawable(Color.TRANSPARENT);
+        //Set Transparent ActionBar
+//        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//        getSupportActionBar().setBackgroundDrawable(colorDrawable);
+
+        //Set Transparent StatusBar
+//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//        window.setStatusBarColor(ContextCompat.getColor(this,R.color.transparentColor));
 
         musicListView = (ListView) findViewById(R.id.musicsList);
         deleteButton = (ImageView) findViewById(R.id.delete);
-
 
 
 //        LayoutInflater inflater = LayoutInflater.from(this);
@@ -69,7 +82,7 @@ public class SavedMuIDActivity extends AppCompatActivity {
 
         musicStringList = new ArrayList<String>();
         URLs = new ArrayList<String>();
-        adapter = new ResultsArrayAdapter(getApplicationContext(), musicStringList,URLs);
+        adapter = new ResultsArrayAdapter(getApplicationContext(), musicStringList, URLs);
         musicListView.setAdapter(adapter);
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
@@ -88,10 +101,12 @@ public class SavedMuIDActivity extends AppCompatActivity {
                 Intent intent = new Intent(SavedMuIDActivity.this, ResultsActivity.class);
 
                 Music savedMusic = musicList.get(position);
-                result = savedMusic.getResult();
+                title = savedMusic.getTitle();
+                artist = savedMusic.getArtist();
+                album = savedMusic.getAlbum();
                 URL = savedMusic.getUrl();
                 lyrics = savedMusic.getLyrics();
-                Song song = new Song(result,"","",URL,lyrics);
+                Song song = new Song(title,artist,album,URL,lyrics);
                 intent.putExtra(RESULT_INTENT, song);
 //                intent.putExtra(COVERART_INTENT, URL);
 //                intent.putExtra(LYRICS_INTENT, lyrics);
@@ -121,7 +136,8 @@ public class SavedMuIDActivity extends AppCompatActivity {
         musicList = musicDao.getAll();
 
         for(int i=0; i < musicList.size(); i++){
-            musicStringList.add(musicDao.getItemById(musicList.get(i).getMuID()).getResult());
+            Music tempMusic = musicDao.getItemById(musicList.get(i).getMuID());
+            musicStringList.add(tempMusic.getTitle() + "\n" + tempMusic.getArtist() + "\n" +tempMusic.getAlbum());
             System.out.println("Show saved music: "+musicDao.getItemById(musicList.get(i).getMuID()).getUrl());
             URLs.add(musicDao.getItemById(musicList.get(i).getMuID()).getUrl());
             adapter.notifyDataSetChanged();

@@ -28,9 +28,12 @@ public class result_fragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     // TODO: Rename and change types of parameters
     private String url;
-    private String result;
+    private String title;
+    private String artist;
+    private String album;
     private String lyrics;
 
     public void setmListener(OnFragmentInteractionListener mListener) {
@@ -93,7 +96,9 @@ public class result_fragment extends Fragment {
 
             url = bundle.getString(MainActivity.COVERART_INTENT);
 //            System.out.println("On Create URL"+ url);
-            result = bundle.getString(MainActivity.RESULT_INTENT);
+            title = bundle.getString(ResultsActivity.TITLE_INTENT);
+            artist = bundle.getString(ResultsActivity.ARTIST_INTENT);
+            album = bundle.getString(ResultsActivity.ALBUM_INTENT);
 //            lyrics =bundle.getString(MainActivity.lyrics_INTENT);
         }
 //        else System.out.println("On Create Not in if");
@@ -104,15 +109,22 @@ public class result_fragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView textView = (TextView) view.findViewById(R.id.result);
+        TextView textView2 = (TextView) view.findViewById(R.id.result2);
+        TextView textView3 = (TextView) view.findViewById(R.id.result3);
+
 //        textView.setText(result +"\n"+lyrics);
-        textView.setText(result);
+        textView.setText(title);
+        textView2.setText(artist);
+        textView3.setText(album);
         ImageView coverImageView = (ImageView) view.findViewById(R.id.coverImageView);
         if(this.url.equalsIgnoreCase("not found"))
             coverImageView.setImageResource(R.drawable.no_cover_found);
         else
             Picasso.get().load(url).into(coverImageView);
         url="";
-        result="";
+        title="";
+        artist="";
+        album="";
 
     }
 

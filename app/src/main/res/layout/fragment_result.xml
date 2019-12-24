@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_2"
+    android:background="@drawable/background"
     tools:context=".result_fragment">
 
     <ScrollView
@@ -27,7 +27,27 @@
                 android:id="@+id/result"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dip"
+                android:layout_marginTop="5dip"
+                android:fontFamily="@font/audiowide"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/result2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dip"
+                android:fontFamily="@font/audiowide"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/result3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dip"
                 android:fontFamily="@font/audiowide"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF" />

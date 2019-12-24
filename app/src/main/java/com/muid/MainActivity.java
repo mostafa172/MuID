@@ -4,13 +4,18 @@ import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,15 +53,27 @@ public class MainActivity extends AppCompatActivity {
 //
 //        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
-        // Displaying custom actionbar
         song = new Song("", "", "", "not found", "");
+
+        // Displaying custom actionbar
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
         getSupportActionBar().setElevation(0);
         assert getSupportActionBar() != null;   //null check
         View view = getSupportActionBar().getCustomView();
-        TextView nameTextView = findViewById(R.id.appTitle);
-        nameTextView.setText("MuID");
+//        TextView nameTextView = findViewById(R.id.appTitle);
+//        nameTextView.setText("MuID");
+
+        Window window = getWindow();
+        ColorDrawable colorDrawable = new ColorDrawable(Color.TRANSPARENT);
+        //Set Transparent ActionBar
+        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
+
+        //Set Transparent StatusBar
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.transparentColor));
 
         historyButton = (ImageView) findViewById(R.id.history);
 
@@ -154,26 +171,16 @@ public class MainActivity extends AppCompatActivity {
             items = musicDao.getAll();
             System.out.println("New Items Size: " + items.size());
             for(int i=0; i<items.size();i++){
-                System.out.println("OLD ITEM Name: " + items.get(i).getResult());
-                System.out.println("OLD ITEM ID: " + items.get(i).getMuID());
                 musicDao.decrementMuID(items.get(i).getMuID());
-                System.out.println("NEW ITEM Name: " + items.get(i).getResult());
-                System.out.println("NEW ITEM ID: " + items.get(i).getMuID());
             }
         }
 
         int i;
         for(i = 0 ; i<items.size();i++);
 
-        Music music = new Music(i, song.title, song.coverURL, song.lyrics);
+        Music music = new Music(i, song.title, song.artist, song.album, song.coverURL, song.lyrics);
         System.out.println("Database save"+song.coverURL);
         musicDao.insert(music);
-
-        items = musicDao.getAll();
-        for(int j = 0; j<items.size();j++){
-            System.out.println("FINAL ITEM Name: " + items.get(j).getResult());
-            System.out.println("FINAL ITEM ID: " + items.get(j).getMuID());
-        }
 
 //        URL ="";
 //        lyrics="";

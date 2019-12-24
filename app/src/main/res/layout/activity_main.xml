@@ -1,47 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_2"
+    android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context="com.muid.MainActivity">
 
-    <Button
-        android:id="@+id/start"
-        android:layout_width="191dp"
-        android:layout_height="202dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="264dp"
-        android:background="@drawable/start"
-        android:fontFamily="@font/audiowide"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foreground="?android:attr/selectableItemBackground"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="4" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginEnd="137dp"
-        android:layout_marginBottom="4dp"
-        android:text="@string/acr_credits"
-        android:textColor="@android:color/white"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3" />
+
+        <Button
+            android:id="@+id/start"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:background="@drawable/start"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center" />
+
+        <Space
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="0dip"
+        android:layout_gravity="center"
+        android:layout_weight="1"
         android:fontFamily="@font/audiowide"
-        android:text="@string/cancel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start" />
+        android:gravity="center"
+        android:text="@string/cancel" />
 
-</android.support.constraint.ConstraintLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="4" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/acr_credits"
+        android:textColor="@android:color/white"
+        android:textStyle="bold|italic" />
+
+</LinearLayout>

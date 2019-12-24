@@ -40,9 +40,15 @@ public class ResultsArrayAdapter extends ArrayAdapter<String> {
 
         }
 //        View rowView = inflater.inflate(R.layout.resultsrow_even, parent, false);
-        TextView textView = (TextView) rowView.findViewById(R.id.resultText);
+        TextView titleTextView = (TextView) rowView.findViewById(R.id.titleTextView);
+        TextView artistTextView = (TextView) rowView.findViewById(R.id.artistTextView);
+        TextView albumTextView = (TextView) rowView.findViewById(R.id.albumTextView);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.resultIcon);
-        textView.setText(results.get(position));
+        String[] resultsText = results.get(position).split("\n");
+        titleTextView.setText(resultsText[0]);
+        artistTextView.setText(resultsText[1]);
+        albumTextView.setText(resultsText[2]);
+
 
         // change the icon for Windows and iPhone
         String s = URLs.get(position);
