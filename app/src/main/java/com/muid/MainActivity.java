@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(com.muid.R.layout.activity_main);
 
 
-        mVolume = (TextView) findViewById(com.muid.R.id.volume);
+//        mVolume = (TextView) findViewById(com.muid.R.id.volume);
 //        mResult = (TextView) findViewById(com.muid.R.id.result);
 //        tv_time = (TextView) findViewById(com.muid.R.id.time);
 //
@@ -187,11 +187,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NoResultsActivity.class);
         startActivity(intent);
     }
-    public void volumeChanged(String result) {
-        mVolume.setText(result);
-//        volume =result;
-        volume= MuID.getRecordedVolume();
-    }
+//    public void volumeChanged(String result) {
+//        mVolume.setText(result);
+////        volume =result;
+//        volume= MuID.getRecordedVolume();
+//    }
 
 //    public void tv_timeChanged(String result) {
 ////        tv_time.setText(result);

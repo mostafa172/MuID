@@ -140,7 +140,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         if (!mProcessing) {
             mProcessing = true;
 //            mVolume.setText("");
-            activity.volumeChanged("");
+//            activity.volumeChanged("");
 //            mResult.setText("");
 //            activity.resultChanged("");
             resultString="";
@@ -263,7 +263,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         long time = (System.currentTimeMillis() - startTime) / 1000;
         recordedVolume = volume;
 //        mVolume.setText("Volume" + volume + "\n\nTime: " + time + " s");
-        activity.volumeChanged("Volume" + volume + "\n\nTime: " + time + " s");
+//        activity.volumeChanged("Volume" + volume + "\n\nTime: " + time + " s");
     }
 
 
