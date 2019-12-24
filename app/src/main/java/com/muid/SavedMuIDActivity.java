@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -48,7 +50,6 @@ public class SavedMuIDActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_mu_id);
-
 
         // Displaying custom actionbar
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -143,5 +144,6 @@ public class SavedMuIDActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
 
 }

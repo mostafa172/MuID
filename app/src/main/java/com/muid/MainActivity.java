@@ -13,9 +13,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,12 +44,14 @@ public class MainActivity extends AppCompatActivity {
     static MusicDao musicDao;
 
     static ImageView historyButton;
+    static Button startButton;
+
+    static Animation myFadeInAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.muid.R.layout.activity_main);
-
 
 //        mVolume = (TextView) findViewById(com.muid.R.id.volume);
 //        mResult = (TextView) findViewById(com.muid.R.id.result);
@@ -77,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         historyButton = (ImageView) findViewById(R.id.history);
 
+        startButton = (Button) findViewById(R.id.start);
+        myFadeInAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tween);
+
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
 
@@ -95,11 +104,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Start Listening
-        findViewById(com.muid.R.id.start).setOnClickListener(new View.OnClickListener() {
+        startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 MuID.start();
+                startButton.startAnimation(myFadeInAnimation);
             }
         });
 
@@ -110,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         MuID.cancel();
+                        myFadeInAnimation.cancel();
+                        startButton.clearAnimation();
                     }
                 });
 
@@ -150,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
 ////        mResult.setText(result);
 //    }
     public void showResult(/*String result*/) {
+        myFadeInAnimation.cancel();
+        startButton.clearAnimation();
 //        mResult.setText( mResult.getText()+result);
 
 //        EditText editText = (EditText) findViewById(R.id.editText);
@@ -200,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void noResult(String result) {
+        myFadeInAnimation.cancel();
+        startButton.clearAnimation();
         Intent intent = new Intent(this, NoResultsActivity.class);
         song.reset();
         startActivity(intent);
