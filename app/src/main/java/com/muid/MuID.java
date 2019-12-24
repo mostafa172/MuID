@@ -54,7 +54,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     private long startTime = 0;
 //    private long stopTime = 0;
 
-    static String title, artist, album, lyrics, URL;
+//    static String title, artist, album, lyrics, URL;
+    Song song;
     static long trackID = -1;
 
     static DeezerConnect deezerConnect;
@@ -76,9 +77,9 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     //    ValuesChangedCallback callback;
     private MainActivity activity;
-    private String resultString;
+//    private String resultString;
 
-    public MuID(Context C,/* TextView mVolume, TextView mResult, TextView tv_time, ImageView coverImView,*/MainActivity activity) {
+    public MuID(Context C,/* TextView mVolume, TextView mResult, TextView tv_time, ImageView coverImView,*/MainActivity activity, Song song) {
 
         //For saving previous searches
         path = Environment.getExternalStorageDirectory().toString()
@@ -95,6 +96,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 //        this.tv_time = tv_time;
 //        this.coverImageView = coverImView;
         this.activity=activity;
+        this.song=song;
 
         applicationID = context.getString(R.string.application_id);
         deezerConnect = new DeezerConnect(context, applicationID);
@@ -143,12 +145,12 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 //            activity.volumeChanged("");
 //            mResult.setText("");
 //            activity.resultChanged("");
-            resultString="";
+//            resultString="";
             if (this.mClient == null || !this.mClient.startRecognize()) {
                 mProcessing = false;
 //                mResult.setText("start error!");
 //                activity.resultChanged("start error!");
-                resultString= "start error!";
+//                resultString= "start error!";
             }
             startTime = System.currentTimeMillis();
         }
@@ -166,9 +168,10 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 //        activity.tv_timeChanged("");
 //        mResult.setText("");
 //        activity.resultChanged("");
-        resultString = "";
+//        resultString = "";
         trackID = -1;
         mProcessing = false;
+//        song.reset();
     }
 
     @Override
@@ -202,26 +205,33 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
 
                     //Music Title
-                    title = tt.getString("title");
-                    tres = "Title: " + title + "\n";
+//                    title = tt.getString("title");
+//                    tres = "Title: " + title + "\n";
 
+                    song.title = tt.getString("title");
+//                    tres = "Title: " + title + "\n";
                     //Artists names
                     JSONArray artists = tt.getJSONArray("artists");
                     JSONObject art = (JSONObject) artists.get(0);
-                    artist = art.getString("name");
-                    tres = tres + "Artist: " + artist;
+//                    artist = art.getString("name");
+                    song.artist = art.getString("name");
+
+//                    tres = tres + "Artist: " + artist;
                     //If number of artists > 1
                     for (int i = 1; i < artists.length(); i++) {
                         art = (JSONObject) artists.get(i);
 //                        artist = art.getString("name");
-                        tres = tres + " , " + art.getString("name");
+//                        tres = tres + " , " + art.getString("name");
+                        song.artist = song.artist + " , " + art.getString("name");
                     }
-                    tres = tres + "\n";
+//                    tres = tres + "\n";
 
                     //Album Name
                     JSONObject tempAlbum = tt.getJSONObject("album");
-                    album = tempAlbum.getString("name");
-                    tres = tres + "Album: " + album + "\n";
+//                    album = tempAlbum.getString("name");
+                    song.album = tempAlbum.getString("name");
+
+//                    tres = tres + "Album: " + album + "\n";
 
                     //Deezer
 
@@ -238,23 +248,26 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                 }
 
                 //Recognize Lyrics and show them
-                new LyricsAdapter().execute(artist, title);
+               // new LyricsAdapter().execute(artist, title);
+                 new LyricsAdapter().execute(song.artist, song.title);
 
 //                tres = tres + "\n\n" + result + "\n\n";
 
             } else {
-                resultString = "No Results Found!";
-                activity.noResult(resultString);
+//                resultString = "No Results Found!";
+                activity.noResult("No Results Found!");//                activity.noResult(resultString);
 //                tres = result;
             }
         } catch (JSONException e) {
-            new LyricsAdapter().execute(artist, title);
+//            new LyricsAdapter().execute(artist, title);
+            new LyricsAdapter().execute(song.artist, song.title);
+
             e.printStackTrace();
         }
 
 //        mResult.setText(tres);
 //        activity.resultChanged(tres);
-        resultString=tres;
+//        resultString=tres;
         startTime = System.currentTimeMillis();
     }
 
@@ -281,7 +294,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     public void onRadioMetadataResult(String s) {
 //        mResult.setText(s);
 //        activity.resultChanged(s);
-        resultString=s;
+//        resultString=s;
     }
 
     public void showCoverPhoto(long coverID) {
@@ -300,10 +313,12 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     Album coverAlbum = track.getAlbum();
 //                String coverURL = coverAlbum.getCoverUrl()+ "?size=xl";
                     String coverURL = coverAlbum.getBigImageUrl();
-                    URL = coverURL;
+//                    URL = coverURL;
+                    song.coverURL = coverURL;
+
                     System.out.println(coverURL);
 //                Picasso.get().load(coverURL).into(coverImageView);
-                    activity.coverPhotoChanged(coverURL);
+//                    activity.coverPhotoChanged(coverURL);
                 }
 
                 public void onUnparsedResult(String requestResponse, Object requestId) {
@@ -349,14 +364,18 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     lyricsRequest[i] = client.getLyrics(request, lyricsSources[i]).get();
                     if (lyricsRequest[i] != null) {
                         noLyrics = false;
-                        lyrics = "Powered by:   " + lyricsRequest[i].getSource() + "\n\n" + lyricsRequest[i].getContent();
+//                        lyrics = "Powered by:   " + lyricsRequest[i].getSource() + "\n\n" + lyricsRequest[i].getContent();
+                        song.lyrics = "Powered by:   " + lyricsRequest[i].getSource() + "\n\n" + lyricsRequest[i].getContent();
+
                         System.out.println("SOURCE: " + lyricsRequest[i].getSource());
                         System.out.println(lyricsRequest[i].getContent());
                         break;
                     }
                 }
                 if (noLyrics) {
-                    lyrics = "Lyrics not found!";
+//                    lyrics = "Lyrics not found!";
+                    song.lyrics = "Lyrics not found!";
+
                 }
 //                if(lyricsRequest != null){
 //                    lyrics = lyricsRequest.getContent();
@@ -379,9 +398,9 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         protected void onPostExecute(String result) {
 //            mResult.setText(mResult.getText() + lyrics);
 //            resultString =resultString /*+lyrics*/;
-            activity.receiveLyrics(lyrics);
-            activity.showResult(resultString);
-            activity.receiveCover(URL);
+//            activity.receiveLyrics(lyrics);
+            activity.showResult();
+//            activity.receiveCover(URL);
         }
 
         @Override

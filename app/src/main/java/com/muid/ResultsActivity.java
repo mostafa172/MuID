@@ -15,7 +15,9 @@ import android.widget.TextView;
 
 
 public class ResultsActivity extends AppCompatActivity implements LyricsFragment.OnFragmentInteractionListener, result_fragment.OnFragmentInteractionListener {
-    static String result, url, lyrics;
+//    static String result, url, lyrics;
+
+   static Song song;
     FragmentPagerAdapter adapterViewPager;
 
     @Override
@@ -34,9 +36,11 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
 
         setContentView(R.layout.activity_results);
         Intent intent = getIntent();
-        result = intent.getStringExtra(MainActivity.RESULT_INTENT);
-        url = intent.getStringExtra(MainActivity.COVERART_INTENT);
-        lyrics = intent.getStringExtra(MainActivity.LYRICS_INTENT);
+//        result = intent.getStringExtra(MainActivity.RESULT_INTENT);
+//        url = intent.getStringExtra(MainActivity.COVERART_INTENT);
+//        lyrics = intent.getStringExtra(MainActivity.LYRICS_INTENT);
+       song =(Song) intent.getSerializableExtra(MainActivity.RESULT_INTENT);
+       System.out.println("Song contents: "+ song.coverURL);
 
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
@@ -112,10 +116,14 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
     @Override
     public Bundle getBundle() {
         Bundle bundle = new Bundle();
-        bundle.putString(MainActivity.COVERART_INTENT, url);
+//        bundle.putString(MainActivity.COVERART_INTENT, url);
+////        System.out.println("url get bundle " + url);
+//        bundle.putString(MainActivity.RESULT_INTENT, result);
+//        bundle.putString(MainActivity.LYRICS_INTENT, lyrics);
+        bundle.putString(MainActivity.COVERART_INTENT, song.coverURL);
 //        System.out.println("url get bundle " + url);
-        bundle.putString(MainActivity.RESULT_INTENT, result);
-        bundle.putString(MainActivity.LYRICS_INTENT, lyrics);
+        bundle.putString(MainActivity.RESULT_INTENT, song.title);
+        bundle.putString(MainActivity.LYRICS_INTENT, song.lyrics);
 //        url="";
 //        lyrics="";
 //        result="";
@@ -140,11 +148,13 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: // Fragment # 0 - This will show FirstFragment
-                    System.out.println("ANA F CASE 0: " + url + "\n" + "result");
-                    return result_fragment.newInstance(url, result);
+//                    System.out.println("ANA F CASE 0: " + url + "\n" + "result");
+//                    return result_fragment.newInstance(url, result);
+                    return result_fragment.newInstance(song.coverURL, song.artist);
+
                 case 1: // Fragment # 1 - This will show FirstFragment different title
-                    System.out.println("ANA F CASE 1: " + lyrics);
-                    return LyricsFragment.newInstance(lyrics);
+//                    System.out.println("ANA F CASE 1: " + lyrics);
+                    return LyricsFragment.newInstance(song.lyrics);
                 default:
                     return null;
             }

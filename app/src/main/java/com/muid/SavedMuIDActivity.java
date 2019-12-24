@@ -91,10 +91,10 @@ public class SavedMuIDActivity extends AppCompatActivity {
                 result = savedMusic.getResult();
                 URL = savedMusic.getUrl();
                 lyrics = savedMusic.getLyrics();
-
-                intent.putExtra(RESULT_INTENT, result);
-                intent.putExtra(COVERART_INTENT, URL);
-                intent.putExtra(LYRICS_INTENT, lyrics);
+                Song song = new Song(result,"","",URL,lyrics);
+                intent.putExtra(RESULT_INTENT, song);
+//                intent.putExtra(COVERART_INTENT, URL);
+//                intent.putExtra(LYRICS_INTENT, lyrics);
 
                 startActivity(intent);
             }
@@ -122,6 +122,7 @@ public class SavedMuIDActivity extends AppCompatActivity {
 
         for(int i=0; i < musicList.size(); i++){
             musicStringList.add(musicDao.getItemById(musicList.get(i).getMuID()).getResult());
+            System.out.println("Show saved music: "+musicDao.getItemById(musicList.get(i).getMuID()).getUrl());
             URLs.add(musicDao.getItemById(musicList.get(i).getMuID()).getUrl());
             adapter.notifyDataSetChanged();
         }

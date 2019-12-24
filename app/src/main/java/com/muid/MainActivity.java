@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String COVERART_INTENT = "URL";
     public static final String  LYRICS_INTENT = "LYRICS";
 //    public static final String VOLUME_INTENT = "VOLUME";
-    private String /*result,*/URL="not found" , lyrics ="";
+//    private String /*result,*/URL="not found" , lyrics ="";
+    Song song;
     double volume;
 
     static MusicRoomDatabase musicRoomDatabase;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 //        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
         // Displaying custom actionbar
+        song = new Song("", "", "", "not found", "");
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
         getSupportActionBar().setElevation(0);
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         musicDao = musicRoomDatabase.getMusicDao();
 
 
-        this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this);
+        this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this,song);
 
 
         historyButton.setOnClickListener(new View.OnClickListener() {
@@ -130,15 +132,19 @@ public class MainActivity extends AppCompatActivity {
 //    public void resultChanged(String result) {
 ////        mResult.setText(result);
 //    }
-    public void showResult(String result) {
+    public void showResult(/*String result*/) {
 //        mResult.setText( mResult.getText()+result);
 
 //        EditText editText = (EditText) findViewById(R.id.editText);
 //        String message = editText.getText().toString();
         Intent intent = new Intent(this, ResultsActivity.class);
-        intent.putExtra(RESULT_INTENT, result);
-        intent.putExtra(COVERART_INTENT, URL);
-        intent.putExtra(LYRICS_INTENT, lyrics);
+//        Bundle bundel = new Bundle();
+//        bundel.put
+        intent.putExtra(RESULT_INTENT, song);
+
+//        intent.putExtra(RESULT_INTENT, result);
+//        intent.putExtra(COVERART_INTENT, URL);
+//        intent.putExtra(LYRICS_INTENT, lyrics);
 
         /////////DATABASE INPUTTTT HANDLING
         List<Music> items = musicDao.getAll();
@@ -159,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
         int i;
         for(i = 0 ; i<items.size();i++);
 
-        Music music = new Music(i, result, URL, lyrics);
+        Music music = new Music(i, song.title, song.coverURL, song.lyrics);
+        System.out.println("Database save"+song.coverURL);
         musicDao.insert(music);
 
         items = musicDao.getAll();
@@ -168,23 +175,26 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("FINAL ITEM ID: " + items.get(j).getMuID());
         }
 
-        URL ="";
-        lyrics="";
+//        URL ="";
+//        lyrics="";
+
 
         startActivity(intent);
+        song.reset();
     }
     public void receiveLyrics(String lyrics){
-        this.lyrics =lyrics;
+        this.song.lyrics =lyrics;
 
     }
 
     public void receiveCover(String coverURL){
-        this.URL =coverURL;
+        this.song.coverURL =coverURL;
 
     }
 
     public void noResult(String result) {
         Intent intent = new Intent(this, NoResultsActivity.class);
+        song.reset();
         startActivity(intent);
     }
 //    public void volumeChanged(String result) {
@@ -197,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 ////        tv_time.setText(result);
 //    }
     public void coverPhotoChanged(String coverURL) {
-        URL=coverURL;
+//        URL=coverURL;
 //        Picasso.get().load(coverURL).into(coverImageView)
     }
 
