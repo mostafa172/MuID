@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     static MusicDao musicDao;
 
     static ImageView historyButton;
-    static Button startButton;
+    static ImageButton startButton;
 
     static Animation myFadeInAnimation;
     static RippleBackground rippleBackground;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         historyButton = (ImageView) findViewById(R.id.history);
 
-        startButton = (Button) findViewById(R.id.start);
+        startButton = (ImageButton) findViewById(R.id.start);
         myFadeInAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tween);
         rippleBackground = (RippleBackground)findViewById(R.id.content);
 
