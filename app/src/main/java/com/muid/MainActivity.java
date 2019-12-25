@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                rippleBackground.startRippleAnimation();
                 MuID.start();
+                rippleBackground.startRippleAnimation();
 //                startButton.startAnimation(myFadeInAnimation);
             }
         });
@@ -161,6 +161,13 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         MuID.Destroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MuID.cancel();
+        rippleBackground.stopRippleAnimation();
     }
 
 
@@ -223,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
     public void noResult(String result) {
 //        myFadeInAnimation.cancel();
 //        startButton.clearAnimation();
-        rippleBackground.stopRippleAnimation();
+//        rippleBackground.stopRippleAnimation();
         Intent intent = new Intent(this, NoResultsActivity.class);
         song.reset();
         startActivity(intent);

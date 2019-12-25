@@ -122,14 +122,15 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
         this.mConfig.recorderConfig.rate = 8000;
         this.mConfig.recorderConfig.channels = 1;
 
+
         // If you do not need volume callback, you set it false.
         this.mConfig.recorderConfig.isVolumeCallback = true;
 
         this.mClient = new ACRCloudClient();
         ACRCloudLogger.setLog(true);
 
-
         this.initState = this.mClient.initWithConfig(this.mConfig);
+        this.mClient.stopPreRecord();
 
     }
 
