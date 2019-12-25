@@ -24,11 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:layout_marginStart="20dip"
-            android:layout_marginTop="20dip"
-            android:layout_marginEnd="20dip"
-            android:layout_marginBottom="20dip"
+            android:layout_margin="50dip"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="50dp"
             android:background="@drawable/start13"
             android:contentDescription="@string/start"
             android:elevation="10dp"
@@ -36,13 +36,14 @@
 
         <Button
             android:id="@+id/cancel"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/start"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="50dip"
             android:fontFamily="@font/audiowide"
-            android:text="@string/cancel" />
+            android:text="@string/cancel"
+            android:textSize="18sp" />
     </com.skyfishjy.library.RippleBackground>
 
     <TextView
@@ -51,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dip"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:text="@string/acr_credits"
         android:textColor="@android:color/white"
         android:textStyle="bold|italic" />
