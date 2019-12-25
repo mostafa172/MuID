@@ -7,6 +7,9 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.skyfishjy.library.RippleBackground;
 
@@ -112,10 +116,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                MuID.start();
-                rippleBackground.startRippleAnimation();
-                rippleBackground.setVisibility(View.VISIBLE);
-//                startButton.startAnimation(myFadeInAnimation);
+                if(isMicAvailable()){
+                    MuID.start();
+                    rippleBackground.startRippleAnimation();
+                    rippleBackground.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Mic is used by another application.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -255,5 +263,29 @@ public class MainActivity extends AppCompatActivity {
 //        Picasso.get().load(coverURL).into(coverImageView)
     }
 
+    private boolean isMicAvailable(){
+        Boolean available = true;
+        AudioRecord recorder =
+                new AudioRecord(MediaRecorder.AudioSource.MIC, 44100,
+                        AudioFormat.CHANNEL_IN_MONO,
+                        AudioFormat.ENCODING_DEFAULT, 44100);
+        try{
+            if(recorder.getRecordingState() != AudioRecord.RECORDSTATE_STOPPED ){
+                available = false;
+            }
+
+            recorder.startRecording();
+            if(recorder.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING){
+                recorder.stop();
+                available = false;
+            }
+            recorder.stop();
+        } finally{
+            recorder.release();
+            recorder = null;
+        }
+
+        return available;
+    }
 
 }
