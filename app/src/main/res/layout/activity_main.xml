@@ -24,7 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/start5"
+            android:background="@drawable/start1"
+            android:contentDescription="@string/start"
+            android:elevation="10dp"
             android:foreground="@drawable/btn_ripple_background" />
 
         <Button
