@@ -20,30 +20,32 @@
             app:rb_rippleAmount="6"
             app:rb_scale="10">
 
-            <ImageButton
-                android:id="@+id/start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="50dip"
-                android:background="@drawable/start13"
-                android:contentDescription="@string/start"
-                android:elevation="10dp"
-                android:foreground="@drawable/btn_ripple_background" />
-
-            <Button
-                android:id="@+id/cancel"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/start"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif"
-                android:text="@string/cancel"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
         </com.skyfishjy.library.RippleBackground>
+
+    <ImageButton
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dip"
+        android:background="@drawable/start13"
+        android:contentDescription="@string/start"
+        android:elevation="10dp"
+        android:foreground="@drawable/btn_ripple_background" />
+
+    <Button
+        android:id="@+id/cancel"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/start"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:scrollHorizontally="false"
+        android:text="@string/cancel"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView"

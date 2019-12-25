@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 MuID.start();
                 rippleBackground.startRippleAnimation();
+                rippleBackground.setVisibility(View.VISIBLE);
 //                startButton.startAnimation(myFadeInAnimation);
             }
         });
@@ -127,7 +128,11 @@ public class MainActivity extends AppCompatActivity {
                         MuID.cancel();
 //                        myFadeInAnimation.cancel();
 //                        startButton.clearAnimation();
-                        rippleBackground.stopRippleAnimation();
+
+                        if(rippleBackground.isRippleAnimationRunning()){
+                            rippleBackground.stopRippleAnimation();
+                            rippleBackground.setVisibility(View.GONE);
+                        }
                     }
                 });
 
@@ -168,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         MuID.cancel();
         rippleBackground.stopRippleAnimation();
+        rippleBackground.setVisibility(View.GONE);
     }
 
 
@@ -177,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     public void showResult(/*String result*/) {
 //        myFadeInAnimation.cancel();
 //        startButton.clearAnimation();
-        rippleBackground.stopRippleAnimation();
+//        rippleBackground.stopRippleAnimation();
 //        mResult.setText( mResult.getText()+result);
 
 //        EditText editText = (EditText) findViewById(R.id.editText);
