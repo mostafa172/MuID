@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MuID</string>
 
-    <string name="start">start</string>
+    <string name="start">Start Recognizing</string>
     <string name="cancel">cancel</string>
     <string name="request_radio_meta">Request Radio Meta [Test]</string>
     <string name="auto_switch_label">Auto Recognize:</string>
@@ -22,6 +22,8 @@
     <string name="no_results">Try Again</string>
     <string name="search_history">Show Search History</string>
     <string name="acr_credits">Powered by ACRCloud</string>
+    <string name="history">Search History</string>
+    <string name="delete">Delete History</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
