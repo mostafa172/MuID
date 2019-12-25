@@ -24,11 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="50dip"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="50dip"
             android:background="@drawable/start13"
             android:contentDescription="@string/start"
             android:elevation="10dp"
@@ -41,9 +37,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/start"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/audiowide"
+            android:fontFamily="sans-serif"
             android:text="@string/cancel"
-            android:textSize="18sp" />
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
     </com.skyfishjy.library.RippleBackground>
 
     <TextView
@@ -53,6 +51,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="?attr/actionBarSize"
+        android:fontFamily="sans-serif"
         android:text="@string/acr_credits"
         android:textColor="@android:color/white"
         android:textStyle="bold|italic" />

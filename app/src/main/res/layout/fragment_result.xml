@@ -29,7 +29,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
-                android:fontFamily="@font/audiowide"
+                android:fontFamily="sans-serif"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dip"
-                android:fontFamily="@font/audiowide"
+                android:fontFamily="sans-serif"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dip"
-                android:fontFamily="@font/audiowide"
+                android:fontFamily="sans-serif"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
