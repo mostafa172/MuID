@@ -69,7 +69,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="delete" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="D:\ASU CHEP\Fall 19\Mobile Computing\MuID\app\src\main\res\drawable\start13.png" />
+                                      <entry key="outputName" value="icon" />
                                       <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="ffffff" />
                                     </map>
@@ -93,6 +95,14 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="foregroundImage" value="D:\ASU CHEP\Fall 19\Mobile Computing\MuID\app\src\main\res\drawable\start13.png" />
+                                      <entry key="legacyIconShape" value="CIRCLE" />
+                                      <entry key="outputName" value="muid_launcher" />
+                                      <entry key="webIconShape" value="CIRCLE" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -140,11 +150,6 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
