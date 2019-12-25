@@ -21,7 +21,8 @@
                 android:layout_width="250dip"
                 android:layout_height="250dip"
                 android:layout_gravity="center"
-                android:layout_margin="5dip" />
+                android:layout_marginTop="20dip"
+                android:layout_marginBottom="10dip" />
 
             <TextView
                 android:id="@+id/result"
@@ -31,7 +32,7 @@
                 android:fontFamily="@font/audiowide"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -41,7 +42,8 @@
                 android:layout_marginTop="1dip"
                 android:fontFamily="@font/audiowide"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/result3"
@@ -50,7 +52,8 @@
                 android:layout_marginTop="1dip"
                 android:fontFamily="@font/audiowide"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
 
         </LinearLayout>
     </ScrollView>
