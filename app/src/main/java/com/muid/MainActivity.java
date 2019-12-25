@@ -24,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.skyfishjy.library.RippleBackground;
+
 import java.util.List;
 
 
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     static Button startButton;
 
     static Animation myFadeInAnimation;
+    static RippleBackground rippleBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         startButton = (Button) findViewById(R.id.start);
         myFadeInAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tween);
+        rippleBackground = (RippleBackground)findViewById(R.id.content);
 
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
@@ -108,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
+                rippleBackground.startRippleAnimation();
                 MuID.start();
-                startButton.startAnimation(myFadeInAnimation);
+//                startButton.startAnimation(myFadeInAnimation);
             }
         });
 
@@ -120,8 +125,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         MuID.cancel();
-                        myFadeInAnimation.cancel();
-                        startButton.clearAnimation();
+//                        myFadeInAnimation.cancel();
+//                        startButton.clearAnimation();
+                        rippleBackground.stopRippleAnimation();
                     }
                 });
 
@@ -162,8 +168,9 @@ public class MainActivity extends AppCompatActivity {
 ////        mResult.setText(result);
 //    }
     public void showResult(/*String result*/) {
-        myFadeInAnimation.cancel();
-        startButton.clearAnimation();
+//        myFadeInAnimation.cancel();
+//        startButton.clearAnimation();
+        rippleBackground.stopRippleAnimation();
 //        mResult.setText( mResult.getText()+result);
 
 //        EditText editText = (EditText) findViewById(R.id.editText);
@@ -214,8 +221,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void noResult(String result) {
-        myFadeInAnimation.cancel();
-        startButton.clearAnimation();
+//        myFadeInAnimation.cancel();
+//        startButton.clearAnimation();
+        rippleBackground.stopRippleAnimation();
         Intent intent = new Intent(this, NoResultsActivity.class);
         song.reset();
         startActivity(intent);
