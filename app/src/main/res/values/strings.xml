@@ -2,7 +2,7 @@
     <string name="app_name">MuID</string>
 
     <string name="start">Start Recognizing</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel"><u>cancel</u></string>
     <string name="request_radio_meta">Request Radio Meta [Test]</string>
     <string name="auto_switch_label">Auto Recognize:</string>
     <string name="auto_switch_open">Open</string>
