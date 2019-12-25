@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.skyfishjy.library.RippleBackground
+        android:id="@+id/content_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:rb_color="@color/appCustomColorPrimary"
+        app:rb_duration="3000"
+        app:rb_radius="24dp"
+        app:rb_rippleAmount="6"
+        app:rb_scale="10">
+
+        <ImageButton
+            android:id="@+id/start_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="50dip"
+            android:background="@drawable/start13"
+            android:contentDescription="@string/start"
+            android:elevation="10dp"
+            android:foreground="@drawable/btn_ripple_background" />
+
+        <Button
+            android:id="@+id/cancel_2"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/start_2"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:text="@string/cancel"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </com.skyfishjy.library.RippleBackground>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:fontFamily="sans-serif"
+        android:text="@string/acr_credits"
+        android:textColor="@android:color/white"
+        android:textStyle="bold|italic" />
+</RelativeLayout>
