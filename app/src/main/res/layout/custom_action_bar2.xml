@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:clickable="true"
+            android:contentDescription="@string/history"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"

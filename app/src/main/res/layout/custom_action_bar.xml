@@ -33,11 +33,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:clickable="true"
+            android:contentDescription="@string/delete"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/delete"
             android:scaleType="centerInside"
-            />
+            android:src="@drawable/delete" />
 
     </LinearLayout>
 </LinearLayout>
