@@ -244,7 +244,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     trackID = Long.parseLong(deezerID);
                     System.out.println("DEEZER TRACK ID: " + deezerID);
 
-//                    showCoverPhoto();
+                    showCoverPhoto(trackID);
 
                 }
 
@@ -345,7 +345,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     private class LyricsAdapter extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-            showCoverPhoto(trackID);
+//            showCoverPhoto(trackID);
 
             try {
 //                Lyrics lyricsRequest = null;

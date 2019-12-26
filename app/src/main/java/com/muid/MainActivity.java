@@ -30,22 +30,22 @@ import android.widget.Toast;
 
 import com.skyfishjy.library.RippleBackground;
 
+import java.io.Serializable;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity  {
     private TextView mVolume/*, mResult, tv_time*/;
-//    private ImageView coverImageView;
+    //    private ImageView coverImageView;
     private MuID MuID;
     public static final String RESULT_INTENT = "ReceiveResult";
     public static final String COVERART_INTENT = "URL";
-    public static final String  LYRICS_INTENT = "LYRICS";
-//    public static final String VOLUME_INTENT = "VOLUME";
+    public static final String LYRICS_INTENT = "LYRICS";
+    //    public static final String VOLUME_INTENT = "VOLUME";
 //    private String /*result,*/URL="not found" , lyrics ="";
     Song song;
     double volume;
-
+    private boolean runing = false;
     static MusicRoomDatabase musicRoomDatabase;
     static MusicDao musicDao;
 
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     static Animation myFadeInAnimation;
     static RippleBackground rippleBackground;
+    static MainActivity myActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 //        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
         song = new Song("", "", "", "not found", "");
-
+        myActivity=this;
         // Displaying custom actionbar
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
@@ -86,19 +87,19 @@ public class MainActivity extends AppCompatActivity {
         //Set Transparent StatusBar
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.transparentColor));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.transparentColor));
 
         historyButton = (ImageView) findViewById(R.id.history);
 
         startButton = (ImageButton) findViewById(R.id.start);
         myFadeInAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tween);
-        rippleBackground = (RippleBackground)findViewById(R.id.content);
+        rippleBackground = (RippleBackground) findViewById(R.id.content);
 
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
 
 
-        this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this,song);
+        this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/, this, song);
 
 
         historyButton.setOnClickListener(new View.OnClickListener() {
@@ -116,14 +117,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                if(isMicAvailable()){
-                    MuID.start();
-                    rippleBackground.startRippleAnimation();
-                    rippleBackground.setVisibility(View.VISIBLE);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Mic is used by another application.", Toast.LENGTH_LONG).show();
-                }
+//                if(isMicAvailable()){
+//                    MuID.start();
+//                    rippleBackground.startRippleAnimation();
+//                    rippleBackground.setVisibility(View.VISIBLE);
+//                }
+//                else{
+//                    Toast.makeText(getApplicationContext(), "Mic is used by another application.", Toast.LENGTH_LONG).show();
+//                }
+                startRecognition();
             }
         });
 
@@ -136,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
                         MuID.cancel();
 //                        myFadeInAnimation.cancel();
 //                        startButton.clearAnimation();
-
-                        if(rippleBackground.isRippleAnimationRunning()){
+                        runing= false;
+                        if (rippleBackground.isRippleAnimationRunning()) {
                             rippleBackground.stopRippleAnimation();
                             rippleBackground.setVisibility(View.GONE);
                         }
@@ -147,6 +149,19 @@ public class MainActivity extends AppCompatActivity {
         verifyPermissions();
         MuID.configArc();
 
+    }
+
+    public void startRecognition() {
+        if (!runing) {
+            if (isMicAvailable()) {
+                runing=true;
+                MuID.start();
+                rippleBackground.startRippleAnimation();
+                rippleBackground.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(getApplicationContext(), "Mic is used by another application.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 
@@ -185,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    public void resultChanged(String result) {
+    //    public void resultChanged(String result) {
 ////        mResult.setText(result);
 //    }
     public void showResult(/*String result*/) {
@@ -196,6 +211,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        EditText editText = (EditText) findViewById(R.id.editText);
 //        String message = editText.getText().toString();
+
+//        while (!com.muid.MuID.coverFetchFinished);
+        runing=false;
         Intent intent = new Intent(this, ResultsActivity.class);
 //        Bundle bundel = new Bundle();
 //        bundel.put
@@ -208,20 +226,20 @@ public class MainActivity extends AppCompatActivity {
         /////////DATABASE INPUTTTT HANDLING
         List<Music> items = musicDao.getAll();
 
-        if(items.size() == 10){
+        if (items.size() == 10) {
             musicDao.deleteFirstItem();
             items = musicDao.getAll();
             System.out.println("New Items Size: " + items.size());
-            for(int i=0; i<items.size();i++){
+            for (int i = 0; i < items.size(); i++) {
                 musicDao.decrementMuID(items.get(i).getMuID());
             }
         }
 
         int i;
-        for(i = 0 ; i<items.size();i++);
+        for (i = 0; i < items.size(); i++) ;
 
         Music music = new Music(i, song.title, song.artist, song.album, song.coverURL, song.lyrics);
-        System.out.println("Database save"+song.coverURL);
+        System.out.println("Database save" + song.coverURL);
         musicDao.insert(music);
 
 //        URL ="";
@@ -231,13 +249,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         song.reset();
     }
-    public void receiveLyrics(String lyrics){
-        this.song.lyrics =lyrics;
+
+    public void receiveLyrics(String lyrics) {
+        this.song.lyrics = lyrics;
 
     }
 
-    public void receiveCover(String coverURL){
-        this.song.coverURL =coverURL;
+    public void receiveCover(String coverURL) {
+        this.song.coverURL = coverURL;
 
     }
 
@@ -245,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
 //        myFadeInAnimation.cancel();
 //        startButton.clearAnimation();
 //        rippleBackground.stopRippleAnimation();
+        runing=false;
         Intent intent = new Intent(this, NoResultsActivity.class);
         song.reset();
         startActivity(intent);
@@ -255,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 //        volume= MuID.getRecordedVolume();
 //    }
 
-//    public void tv_timeChanged(String result) {
+    //    public void tv_timeChanged(String result) {
 ////        tv_time.setText(result);
 //    }
     public void coverPhotoChanged(String coverURL) {
@@ -263,24 +283,24 @@ public class MainActivity extends AppCompatActivity {
 //        Picasso.get().load(coverURL).into(coverImageView)
     }
 
-    private boolean isMicAvailable(){
+    private boolean isMicAvailable() {
         Boolean available = true;
         AudioRecord recorder =
                 new AudioRecord(MediaRecorder.AudioSource.MIC, 44100,
                         AudioFormat.CHANNEL_IN_MONO,
                         AudioFormat.ENCODING_DEFAULT, 44100);
-        try{
-            if(recorder.getRecordingState() != AudioRecord.RECORDSTATE_STOPPED ){
+        try {
+            if (recorder.getRecordingState() != AudioRecord.RECORDSTATE_STOPPED) {
                 available = false;
             }
 
             recorder.startRecording();
-            if(recorder.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING){
+            if (recorder.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING) {
                 recorder.stop();
                 available = false;
             }
             recorder.stop();
-        } finally{
+        } finally {
             recorder.release();
             recorder = null;
         }
