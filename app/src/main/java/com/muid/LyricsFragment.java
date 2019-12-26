@@ -72,7 +72,7 @@ public class LyricsFragment extends Fragment {
 //            System.out.println("On Create");
 //            System.out.println("On Create URL"+ url);
 
-            lyrics =bundle.getString(MainActivity.LYRICS_INTENT);
+            lyrics =bundle.getString(ResultsActivity.LYRICS_INTENT);
         }
 //        else System.out.println("On Create Not in if");
         return inflater.inflate(R.layout.fragment_lyrics, container, false);

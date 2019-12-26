@@ -27,10 +27,14 @@ public class result_fragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
+    private static final String ARG_PARAM4 = "param4";
+
+
 
 
     // TODO: Rename and change types of parameters
-    private String url;
+    private String url = "not found";
     private String title;
     private String artist;
     private String album;
@@ -61,11 +65,13 @@ public class result_fragment extends Fragment {
      * @return A new instance of fragment result_fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static result_fragment newInstance(String param1, String param2) {
+    public static result_fragment newInstance(String param1, String param2, String param3, String param4) {
         result_fragment fragment = new result_fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
+        args.putString(ARG_PARAM4, param4);
         fragment.setArguments(args);
         return fragment;
     }
@@ -94,11 +100,13 @@ public class result_fragment extends Fragment {
 //            System.out.println("On Create");
 //            System.out.println("On Create URL"+ url);
 
-            url = bundle.getString(MainActivity.COVERART_INTENT);
+
 //            System.out.println("On Create URL"+ url);
             title = bundle.getString(ResultsActivity.TITLE_INTENT);
             artist = bundle.getString(ResultsActivity.ARTIST_INTENT);
             album = bundle.getString(ResultsActivity.ALBUM_INTENT);
+            url = bundle.getString(ResultsActivity.COVERART_INTENT);
+            System.out.println("ana fl bundle: "+ url);
 //            lyrics =bundle.getString(MainActivity.lyrics_INTENT);
         }
 //        else System.out.println("On Create Not in if");
@@ -117,8 +125,10 @@ public class result_fragment extends Fragment {
         textView2.setText(artist);
         textView3.setText(album);
         ImageView coverImageView = (ImageView) view.findViewById(R.id.coverImageView);
-        if(this.url.equalsIgnoreCase("not found"))
+        if(this.url.equalsIgnoreCase("not found")) {
+            System.out.println("ana fl no cover found: " + this.url);
             coverImageView.setImageResource(R.drawable.no_cover_found);
+        }
         else
             Picasso.get().load(url).into(coverImageView);
         url="";

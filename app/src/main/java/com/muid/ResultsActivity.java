@@ -22,6 +22,8 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
     public static final String TITLE_INTENT = "ReceiveTitle";
     public static final String ARTIST_INTENT = "ReceiveArtist";
     public static final String ALBUM_INTENT = "ReceiveAlbum";
+    public static final String COVERART_INTENT = "ReceiveURL";
+    public static final String LYRICS_INTENT = "ReceiveLyrics";
 
     static Intent intent;
 
@@ -45,7 +47,7 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
 //        url = intent.getStringExtra(MainActivity.COVERART_INTENT);
 //        lyrics = intent.getStringExtra(MainActivity.LYRICS_INTENT);
        song =(Song) intent.getSerializableExtra(MainActivity.RESULT_INTENT);
-       System.out.println("Song contents: "+ song.coverURL);
+       System.out.println("ana fl Song contents: "+ song.coverURL);
 
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
@@ -125,13 +127,14 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
 ////        System.out.println("url get bundle " + url);
 //        bundle.putString(MainActivity.RESULT_INTENT, result);
 //        bundle.putString(MainActivity.LYRICS_INTENT, lyrics);
-        bundle.putString(MainActivity.COVERART_INTENT, song.coverURL);
 //        System.out.println("url get bundle " + url);
         song =(Song) intent.getSerializableExtra(MainActivity.RESULT_INTENT);
         bundle.putString(TITLE_INTENT, song.title);
         bundle.putString(ARTIST_INTENT, song.artist);
         bundle.putString(ALBUM_INTENT, song.album);
-        bundle.putString(MainActivity.LYRICS_INTENT, song.lyrics);
+        System.out.println("ana f creation el bundle: " + song.coverURL);
+        bundle.putString(COVERART_INTENT, song.coverURL);
+        bundle.putString(LYRICS_INTENT, song.lyrics);
 //        url="";
 //        lyrics="";
 //        result="";
@@ -158,7 +161,8 @@ public class ResultsActivity extends AppCompatActivity implements LyricsFragment
                 case 0: // Fragment # 0 - This will show FirstFragment
 //                    System.out.println("ANA F CASE 0: " + url + "\n" + "result");
 //                    return result_fragment.newInstance(url, result);
-                    return result_fragment.newInstance(song.coverURL, song.title);
+                    System.out.println("ana fl case 0:" + song.coverURL);
+                    return result_fragment.newInstance(song.coverURL, song.title, song.artist, song.album);
 
                 case 1: // Fragment # 1 - This will show FirstFragment different title
 //                    System.out.println("ANA F CASE 1: " + lyrics);
