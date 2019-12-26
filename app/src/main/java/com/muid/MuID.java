@@ -53,6 +53,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     static LyricsClient client = new LyricsClient(); //default is A-Z Lyrics, can be changed to Genius, MusixMatch or LyricsFreak
     static String[] lyricsSources = {"Genius", "A-Z Lyrics", "MusixMatch", "MusicMatch", "LyricsFreak"};
+//static String[] lyricsSources = {"A-Z Lyrics","Genius", "MusixMatch", "MusicMatch", "LyricsFreak"};
     private Context context;
     private double recordedVolume = 0;
 
@@ -190,14 +191,19 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                 }
 
                 //Recognize Lyrics and Show Cover
-                new LyricsAdapter().execute(tempArtist, song.title, String.valueOf(trackID));
+//                new LyricsAdapter().execute(tempArtist, song.title, String.valueOf(trackID));
+//                System.out.println("Temp Artist"+tempArtist);
+                new LyricsAdapter().execute(song.title, tempArtist, String.valueOf(trackID));
+
 
             } else {
                 activity.noResult("No Results Found!");
             }
 
         } catch (JSONException e) {
-            new LyricsAdapter().execute(song.artist, song.title, String.valueOf(trackID));
+//            new LyricsAdapter().execute(song.artist, song.title, String.valueOf(trackID));
+//            System.out.println("Song Artist"+song.artist);
+            new LyricsAdapter().execute(song.title, song.artist, String.valueOf(trackID));
             e.printStackTrace();
         }
         startTime = System.currentTimeMillis();
