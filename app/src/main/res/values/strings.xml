@@ -19,12 +19,12 @@
     <string name="access_key">e87ed4209b3fc5b009f28ee9b7187f6a</string>
     <string name="access_secret">wk5vfBktHKVuxhcPzCq498pGyJR1JaAqy2k063sn</string>
     <string name="application_id">385124</string>
-    <string name="no_results">Try Again</string>
+    <string name="no_results">NO RESULTS FOUND!</string>
     <string name="search_history">Show Search History</string>
     <string name="acr_credits">Powered by ACRCloud</string>
     <string name="history">Search History</string>
     <string name="delete">Delete History</string>
-
+    <string name="try_again">Try Again</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

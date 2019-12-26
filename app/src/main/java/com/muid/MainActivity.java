@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 //    private String /*result,*/URL="not found" , lyrics ="";
     Song song;
     double volume;
-    private boolean runing = false;
+    private boolean running = false;
 
     static MusicRoomDatabase musicRoomDatabase;
     static MusicDao musicDao;
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         MuID.cancel();
 //                        myFadeInAnimation.cancel();
 //                        startButton.clearAnimation();
-                        runing= false;
+                        running= false;
                         if (rippleBackground.isRippleAnimationRunning()) {
                             rippleBackground.stopRippleAnimation();
                             rippleBackground.setVisibility(View.GONE);
@@ -154,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startRecognition() {
-        if (!runing) {
+        if (!running) {
             if (isMicAvailable()) {
-                runing=true;
+                running=true;
                 MuID.start();
                 rippleBackground.startRippleAnimation();
                 rippleBackground.setVisibility(View.VISIBLE);
@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        running = false;
         MuID.cancel();
         rippleBackground.stopRippleAnimation();
         rippleBackground.setVisibility(View.GONE);
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 //        String message = editText.getText().toString();
 
 //        while (!com.muid.MuID.coverFetchFinished);
-        runing=false;
+        running=false;
         Intent intent = new Intent(this, ResultsActivity.class);
 //        Bundle bundel = new Bundle();
 //        bundel.put
@@ -266,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
 //        myFadeInAnimation.cancel();
 //        startButton.clearAnimation();
 //        rippleBackground.stopRippleAnimation();
-        runing=false;
+        running=false;
         Intent intent = new Intent(this, NoResultsActivity.class);
         song.reset();
         startActivity(intent);
