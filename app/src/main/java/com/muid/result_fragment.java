@@ -38,20 +38,14 @@ public class result_fragment extends Fragment {
     private String title;
     private String artist;
     private String album;
-    private String lyrics;
 
     public void setmListener(OnFragmentInteractionListener mListener) {
         this.mListener = mListener;
     }
-
     private OnFragmentInteractionListener mListener;
-
-
-
 
     // This interface can be implemented by the Activity, parent Fragment,
     // or a separate test implementation.
-
     public result_fragment() {
         // Required empty public constructor
     }
@@ -64,6 +58,7 @@ public class result_fragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment result_fragment.
      */
+
     // TODO: Rename and change types and number of parameters
     public static result_fragment newInstance(String param1, String param2, String param3, String param4) {
         result_fragment fragment = new result_fragment();
@@ -79,37 +74,20 @@ public class result_fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            System.out.println("On Create");
-//            url = getArguments().getString(MainActivity.COVERART_INTENT);
-//            result = getArguments().getString(MainActivity.RESULT_INTENT);
-//            lyrics = getArguments().getString(MainActivity.lyrics_INTENT);
-//        }
-//       else System.out.println("On Create Not in if");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_result, container, false);
-//        ImageView imageView = (ImageView) getView().findViewById(R.id.foo);
         Bundle bundle = mListener.getBundle();
         System.out.println("On Create Fragment");
         if (bundle != null) {
-//            System.out.println("On Create");
-//            System.out.println("On Create URL"+ url);
-
-
-//            System.out.println("On Create URL"+ url);
             title = bundle.getString(ResultsActivity.TITLE_INTENT);
             artist = bundle.getString(ResultsActivity.ARTIST_INTENT);
             album = bundle.getString(ResultsActivity.ALBUM_INTENT);
             url = bundle.getString(ResultsActivity.COVERART_INTENT);
             System.out.println("ana fl bundle: "+ url);
-//            lyrics =bundle.getString(MainActivity.lyrics_INTENT);
         }
-//        else System.out.println("On Create Not in if");
         return inflater.inflate(R.layout.fragment_result, container, false);
     }
 
@@ -120,17 +98,18 @@ public class result_fragment extends Fragment {
         TextView textView2 = (TextView) view.findViewById(R.id.result2);
         TextView textView3 = (TextView) view.findViewById(R.id.result3);
 
-//        textView.setText(result +"\n"+lyrics);
         textView.setText(title);
         textView2.setText(artist);
         textView3.setText(album);
         ImageView coverImageView = (ImageView) view.findViewById(R.id.coverImageView);
+
         if(this.url.equalsIgnoreCase("not found")) {
             System.out.println("ana fl no cover found: " + this.url);
             coverImageView.setImageResource(R.drawable.no_cover_found);
         }
         else
             Picasso.get().load(url).into(coverImageView);
+
         url="";
         title="";
         artist="";

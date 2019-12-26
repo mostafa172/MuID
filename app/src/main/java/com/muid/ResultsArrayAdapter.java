@@ -23,7 +23,6 @@ public class ResultsArrayAdapter extends ArrayAdapter<String> {
         this.context = context;
         this.results = values;
         this.URLs=URLs;
-
     }
 
     @Override
@@ -33,30 +32,22 @@ public class ResultsArrayAdapter extends ArrayAdapter<String> {
         View rowView;
         if(position%2 ==0){
              rowView = inflater.inflate(R.layout.resultsrow_even, parent, false);
-
         }
         else{
             rowView = inflater.inflate(R.layout.resultsrow_odd, parent, false);
-
         }
-//        View rowView = inflater.inflate(R.layout.resultsrow_even, parent, false);
         TextView titleTextView = (TextView) rowView.findViewById(R.id.titleTextView);
         TextView artistTextView = (TextView) rowView.findViewById(R.id.artistTextView);
         TextView albumTextView = (TextView) rowView.findViewById(R.id.albumTextView);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.resultIcon);
+
         String[] resultsText = results.get(position).split("\n");
+
         titleTextView.setText(resultsText[0]);
         artistTextView.setText(resultsText[1]);
         albumTextView.setText(resultsText[2]);
 
-
-        // change the icon for Windows and iPhone
         String s = URLs.get(position);
-//        if (s.startsWith("iPhone")) {
-//            imageView.setImageResource(R.drawable.no);
-//        } else {
-//            imageView.setImageResource(R.drawable.ok);
-//        }
         if(s.equalsIgnoreCase("not found"))
             imageView.setImageResource(R.drawable.no_cover_found);
         else

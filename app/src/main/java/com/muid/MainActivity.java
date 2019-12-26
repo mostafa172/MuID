@@ -1,33 +1,26 @@
 package com.muid;
 
 import android.Manifest;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Slide;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-import java.io.Serializable;
 
 import com.skyfishjy.library.RippleBackground;
 
@@ -36,16 +29,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mVolume/*, mResult, tv_time*/;
-    //    private ImageView coverImageView;
     private MuID MuID;
+
     public static final String RESULT_INTENT = "ReceiveResult";
-    public static final String COVERART_INTENT = "URL";
-    public static final String  LYRICS_INTENT = "LYRICS";
-    //    public static final String VOLUME_INTENT = "VOLUME";
-//    private String /*result,*/URL="not found" , lyrics ="";
+
     Song song;
-    double volume;
+
     private boolean running = false;
 
     static MusicRoomDatabase musicRoomDatabase;
@@ -54,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     static ImageView historyButton;
     static ImageButton startButton;
 
-    static Animation myFadeInAnimation;
     static RippleBackground rippleBackground;
     static MainActivity myActivity;
 
@@ -63,12 +51,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.muid.R.layout.activity_main);
 
-//        mVolume = (TextView) findViewById(com.muid.R.id.volume);
-//        mResult = (TextView) findViewById(com.muid.R.id.result);
-//        tv_time = (TextView) findViewById(com.muid.R.id.time);
-//
-//        coverImageView = (ImageView) findViewById(R.id.coverImageView);
-
         song = new Song("", "", "", "not found", "");
 
         // Displaying custom actionbar
@@ -76,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
         getSupportActionBar().setElevation(0);
         assert getSupportActionBar() != null;   //null check
-        View view = getSupportActionBar().getCustomView();
-//        TextView nameTextView = findViewById(R.id.appTitle);
-//        nameTextView.setText("MuID");
 
         Window window = getWindow();
         ColorDrawable colorDrawable = new ColorDrawable(Color.TRANSPARENT);
@@ -94,22 +73,19 @@ public class MainActivity extends AppCompatActivity {
         historyButton = (ImageView) findViewById(R.id.history);
 
         startButton = (ImageButton) findViewById(R.id.start);
-        myFadeInAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tween);
         rippleBackground = (RippleBackground)findViewById(R.id.content);
 
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
 
 
-        this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this,song);
+        this.MuID = new MuID(getApplicationContext(),this, song);
 
-
+        //Show Search History
         historyButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(getApplicationContext(), SavedMuIDActivity.class);
-//                finish();
                 startActivity(intent);
             }
         });
@@ -119,14 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-//                if(isMicAvailable()){
-//                    MuID.start();
-//                    rippleBackground.startRippleAnimation();
-//                    rippleBackground.setVisibility(View.VISIBLE);
-//                }
-//                else{
-//                    Toast.makeText(getApplicationContext(), "Mic is used by another application.", Toast.LENGTH_LONG).show();
-//                }
                 startRecognition();
             }
         });
@@ -147,10 +115,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
         verifyPermissions();
         MuID.configArc();
-
     }
 
     public void startRecognition() {
@@ -189,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         MuID.Destroy();
     }
 
@@ -202,31 +167,12 @@ public class MainActivity extends AppCompatActivity {
         rippleBackground.setVisibility(View.GONE);
     }
 
-
-    //    public void resultChanged(String result) {
-////        mResult.setText(result);
-//    }
-    public void showResult(/*String result*/) {
-//        myFadeInAnimation.cancel();
-//        startButton.clearAnimation();
-//        rippleBackground.stopRippleAnimation();
-//        mResult.setText( mResult.getText()+result);
-
-//        EditText editText = (EditText) findViewById(R.id.editText);
-//        String message = editText.getText().toString();
-
-//        while (!com.muid.MuID.coverFetchFinished);
+    public void showResult() {
         running=false;
         Intent intent = new Intent(this, ResultsActivity.class);
-//        Bundle bundel = new Bundle();
-//        bundel.put
         intent.putExtra(RESULT_INTENT, song);
 
-//        intent.putExtra(RESULT_INTENT, result);
-//        intent.putExtra(COVERART_INTENT, URL);
-//        intent.putExtra(LYRICS_INTENT, lyrics);
-
-        /////////DATABASE INPUTTTT HANDLING
+        //Database Input Handling
         List<Music> items = musicDao.getAll();
 
         if(items.size() == 10){
@@ -245,10 +191,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("ana fl Database save"+song.coverURL);
         musicDao.insert(music);
 
-//        URL ="";
-//        lyrics="";
-
-
         startActivity(intent);
         song.reset();
     }
@@ -264,27 +206,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void noResult(String result) {
-//        myFadeInAnimation.cancel();
-//        startButton.clearAnimation();
-//        rippleBackground.stopRippleAnimation();
         running=false;
         Intent intent = new Intent(this, NoResultsActivity.class);
         song.reset();
         startActivity(intent);
     }
-//    public void volumeChanged(String result) {
-//        mVolume.setText(result);
-////        volume =result;
-//        volume= MuID.getRecordedVolume();
-//    }
 
-    //    public void tv_timeChanged(String result) {
-////        tv_time.setText(result);
-//    }
-    public void coverPhotoChanged(String coverURL) {
-//        URL=coverURL;
-//        Picasso.get().load(coverURL).into(coverImageView)
-    }
+    public void coverPhotoChanged(String coverURL) { }
 
     private boolean isMicAvailable(){
         Boolean available = true;

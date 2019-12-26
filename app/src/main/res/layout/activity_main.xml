@@ -57,6 +57,7 @@
         android:fontFamily="sans-serif"
         android:text="@string/acr_credits"
         android:textColor="@android:color/white"
-        android:textStyle="bold|italic" />
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

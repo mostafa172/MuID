@@ -32,9 +32,7 @@ public class LyricsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public LyricsFragment() {
-        // Required empty public constructor
-    }
+    public LyricsFragment() {}
 
     /**
      * Use this factory method to create a new instance of
@@ -48,7 +46,6 @@ public class LyricsFragment extends Fragment {
         LyricsFragment fragment = new LyricsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,23 +55,17 @@ public class LyricsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         Bundle bundle = mListener.getBundle();
         System.out.println("On Create Fragment");
         if (bundle != null) {
-//            System.out.println("On Create");
-//            System.out.println("On Create URL"+ url);
-
             lyrics =bundle.getString(ResultsActivity.LYRICS_INTENT);
         }
-//        else System.out.println("On Create Not in if");
         return inflater.inflate(R.layout.fragment_lyrics, container, false);
     }
 
@@ -82,10 +73,8 @@ public class LyricsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView textView = (TextView) view.findViewById(R.id.lyrics);
-
         textView.setText(lyrics);
         lyrics="";
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
