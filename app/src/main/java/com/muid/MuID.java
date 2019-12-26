@@ -54,7 +54,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     private long startTime = 0;
 //    private long stopTime = 0;
 
-//    static String title, artist, album, lyrics, URL;
+    //    static String title, artist, album, lyrics, URL;
     Song song;
     static long trackID = -1;
 
@@ -190,6 +190,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
         String result = results.getResult();
         String tres = "\n";
+        String tempArtist="";
 
         try {
             JSONObject j = new JSONObject(result);
@@ -214,7 +215,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     //Artists names
                     JSONArray artists = tt.getJSONArray("artists");
                     JSONObject art = (JSONObject) artists.get(0);
-//                    artist = art.getString("name");
+                    tempArtist = art.getString("name");
                     song.artist = art.getString("name");
 
 //                    tres = tres + "Artist: " + artist;
@@ -242,15 +243,15 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
                     deezer = deezer.getJSONObject("track");
                     String deezerID = deezer.getString("id");
                     trackID = Long.parseLong(deezerID);
-                    System.out.println("DEEZER TRACK ID: " + deezerID);
+                    System.out.println("ana fl DEEZER TRACK ID: " + trackID);
 
-                    showCoverPhoto(trackID);
+//                    showCoverPhoto();
 
                 }
 
                 //Recognize Lyrics and show them
-               // new LyricsAdapter().execute(artist, title);
-                 new LyricsAdapter().execute(song.artist, song.title);
+                // new LyricsAdapter().execute(artist, title);
+                new LyricsAdapter().execute(tempArtist, song.title, String.valueOf(trackID));
 
 //                tres = tres + "\n\n" + result + "\n\n";
 
@@ -261,7 +262,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
             }
         } catch (JSONException e) {
 //            new LyricsAdapter().execute(artist, title);
-            new LyricsAdapter().execute(song.artist, song.title);
+            new LyricsAdapter().execute(song.artist, song.title, String.valueOf(trackID));
 
             e.printStackTrace();
         }
@@ -300,9 +301,10 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 
     public void showCoverPhoto(long coverID) {
 
+        System.out.println("ana fl show coverphoto EL URL EQUALS " + coverID);
         if(coverID == -1){
-            System.out.println("EL URL EQUALS " + "");
-            activity.coverPhotoChanged("not found");
+            System.out.println("ana fl show coverphoto -1 EL URL EQUALS " + coverID);
+//            activity.coverPhotoChanged("not found");
         }
         else {
             // the request listener
@@ -317,7 +319,7 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
 //                    URL = coverURL;
                     song.coverURL = coverURL;
 
-                    System.out.println(coverURL);
+                    System.out.println("ana fl COVER: " + coverURL);
 //                Picasso.get().load(coverURL).into(coverImageView);
 //                    activity.coverPhotoChanged(coverURL);
                 }
@@ -345,7 +347,8 @@ public class MuID implements IACRCloudListener, IACRCloudRadioMetadataListener {
     private class LyricsAdapter extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-//            showCoverPhoto(trackID);
+            System.out.println("ana fl do in background: " + Long.valueOf(params[2]));
+            showCoverPhoto(Long.valueOf(params[2]));
 
             try {
 //                Lyrics lyricsRequest = null;

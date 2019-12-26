@@ -27,25 +27,27 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.io.Serializable;
 
 import com.skyfishjy.library.RippleBackground;
 
-import java.io.Serializable;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
+
     private TextView mVolume/*, mResult, tv_time*/;
     //    private ImageView coverImageView;
     private MuID MuID;
     public static final String RESULT_INTENT = "ReceiveResult";
     public static final String COVERART_INTENT = "URL";
-    public static final String LYRICS_INTENT = "LYRICS";
+    public static final String  LYRICS_INTENT = "LYRICS";
     //    public static final String VOLUME_INTENT = "VOLUME";
 //    private String /*result,*/URL="not found" , lyrics ="";
     Song song;
     double volume;
     private boolean runing = false;
+
     static MusicRoomDatabase musicRoomDatabase;
     static MusicDao musicDao;
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity  {
 //        coverImageView = (ImageView) findViewById(R.id.coverImageView);
 
         song = new Song("", "", "", "not found", "");
-        myActivity=this;
+
         // Displaying custom actionbar
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
@@ -87,19 +89,19 @@ public class MainActivity extends AppCompatActivity  {
         //Set Transparent StatusBar
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.transparentColor));
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.transparentColor));
 
         historyButton = (ImageView) findViewById(R.id.history);
 
         startButton = (ImageButton) findViewById(R.id.start);
         myFadeInAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tween);
-        rippleBackground = (RippleBackground) findViewById(R.id.content);
+        rippleBackground = (RippleBackground)findViewById(R.id.content);
 
         musicRoomDatabase = MusicRoomDatabase.getInstance(getApplicationContext());
         musicDao = musicRoomDatabase.getMusicDao();
 
 
-        this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/, this, song);
+        this.MuID = new MuID(getApplicationContext()/*, mVolume, mResult, tv_time, coverImageView*/,this,song);
 
 
         historyButton.setOnClickListener(new View.OnClickListener() {
@@ -226,20 +228,20 @@ public class MainActivity extends AppCompatActivity  {
         /////////DATABASE INPUTTTT HANDLING
         List<Music> items = musicDao.getAll();
 
-        if (items.size() == 10) {
+        if(items.size() == 10){
             musicDao.deleteFirstItem();
             items = musicDao.getAll();
             System.out.println("New Items Size: " + items.size());
-            for (int i = 0; i < items.size(); i++) {
+            for(int i=0; i<items.size();i++){
                 musicDao.decrementMuID(items.get(i).getMuID());
             }
         }
 
         int i;
-        for (i = 0; i < items.size(); i++) ;
+        for(i = 0 ; i<items.size();i++);
 
         Music music = new Music(i, song.title, song.artist, song.album, song.coverURL, song.lyrics);
-        System.out.println("Database save" + song.coverURL);
+        System.out.println("ana fl Database save"+song.coverURL);
         musicDao.insert(music);
 
 //        URL ="";
@@ -255,8 +257,8 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    public void receiveCover(String coverURL) {
-        this.song.coverURL = coverURL;
+    public void receiveCover(String coverURL){
+        this.song.coverURL =coverURL;
 
     }
 
@@ -283,24 +285,24 @@ public class MainActivity extends AppCompatActivity  {
 //        Picasso.get().load(coverURL).into(coverImageView)
     }
 
-    private boolean isMicAvailable() {
+    private boolean isMicAvailable(){
         Boolean available = true;
         AudioRecord recorder =
                 new AudioRecord(MediaRecorder.AudioSource.MIC, 44100,
                         AudioFormat.CHANNEL_IN_MONO,
                         AudioFormat.ENCODING_DEFAULT, 44100);
-        try {
-            if (recorder.getRecordingState() != AudioRecord.RECORDSTATE_STOPPED) {
+        try{
+            if(recorder.getRecordingState() != AudioRecord.RECORDSTATE_STOPPED ){
                 available = false;
             }
 
             recorder.startRecording();
-            if (recorder.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING) {
+            if(recorder.getRecordingState() != AudioRecord.RECORDSTATE_RECORDING){
                 recorder.stop();
                 available = false;
             }
             recorder.stop();
-        } finally {
+        } finally{
             recorder.release();
             recorder = null;
         }
