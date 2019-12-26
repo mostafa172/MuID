@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
         getSupportActionBar().setElevation(0);
         assert getSupportActionBar() != null;   //null check
-
+        myActivity=this;
         Window window = getWindow();
         ColorDrawable colorDrawable = new ColorDrawable(Color.TRANSPARENT);
         //Set Transparent ActionBar

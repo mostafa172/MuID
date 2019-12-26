@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:ellipsize="none"
-        android:fadingEdgeLength="300dip"
+        android:fadingEdgeLength="150dip"
         android:requiresFadingEdge="vertical">
 
         <LinearLayout
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="3dip"
-                android:fontFamily="sans-serif"
+                android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />

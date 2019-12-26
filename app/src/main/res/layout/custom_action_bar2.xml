@@ -16,6 +16,7 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
             android:textColor="#FFFFFF"
             android:textSize="18sp" />
     </LinearLayout>
