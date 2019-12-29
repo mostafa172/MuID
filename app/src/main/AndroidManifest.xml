@@ -19,13 +19,20 @@
         android:roundIcon="@mipmap/muid_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:screenOrientation="portrait"
         >
 
-        <activity android:name=".SavedMuIDActivity" />
-        <activity android:name=".NoResultsActivity" />
-        <activity android:name=".ResultsActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".SavedMuIDActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".NoResultsActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ResultsActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
